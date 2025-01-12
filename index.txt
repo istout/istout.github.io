@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Ivy Stout, CE 514, Geospatial Software Development</h1>
+	<p>I'm hosted with GitHub Pages.</p>
+	<p></p>
+	<p>  <img src="IMG_2665.png" alt="Picture of self"></p>
+<p> Things I enjoy:</p>
+	<p> <img src="IMG_4725.jpg" alt="Picture of self"></p>
+	<p> <img src="IMG_5010.jpeg" alt="Picture of self"></p>
+	<p> <img src="IMG_9675.jpeg" alt="Picture of self"></p>
+<p> Check out these other links! </p>
+	<p> 	<a href="https://www.byu.edu">BYU</a></p>
+	<p> 	<a href="https://www.instagram.com/byuwomensrugby/?hl=en">Come Support your BYU Women’s Rugby Team!</a></p>
+	<p> 	<a href="https://www.mountainproject.com/area/105716859/ancient-art">This is a place I want to go back to ◡̈ </a></p>
+
+</body>
+</html>

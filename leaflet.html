@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 600px; /* Set the height of the map */
+            width: 100%; /* Set the width of the map */
+        }
+    </style>
+</head>
+<body>
+    <h1>My Leaflet Map</h1>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map and set its view to BYU's geographical coordinates and zoom level
+        var map = L.map('map').setView([40.246331, -111.647653], 15);
+
+        // Define tile layers
+        var streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        });
+
+        var satelliteLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://opentopomap.org">OpenTopoMap</a> contributors'
+        });
+
+        // Add the street layer to the map by default
+        streetLayer.addTo(map);
+
+        // Add a marker to the map at BYU's coordinates
+        L.marker([40.246331, -111.647653]).addTo(map)
+            .bindPopup('Brigham Young University')
+            .openPopup();
+
+        // Function to add a marker at the clicked location
+        function onMapClick(e) {
+            var marker = L.marker(e.latlng).addTo(map)
+                .bindPopup('You clicked the map at ' + e.latlng.toString())
+                .openPopup();
+
+            // Add event listener for right-click to remove the marker
+            marker.on('contextmenu', function() {
+                map.removeLayer(marker);
+            });
+        }
+
+        // Add event listener for map clicks
+        map.on('click', onMapClick);
+
+        // Add layer control to switch between street and satellite views
+        var baseLayers = {
+            "Street View": streetLayer,
+            "Satellite View": satelliteLayer
+        };
+
+        L.control.layers(baseLayers).addTo(map);
+    </script>
+</body>
+</html>

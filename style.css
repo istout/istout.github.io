@@ -1,0 +1,24 @@
+/* Set the background color of the entire page to gray */
+body {
+    background-color: #808080; /* gray */
+    font-family: Arial, sans-serif; /* Optional: sets a nice font */
+    margin: 0; /* Remove default margins */
+    padding: 0; /* Remove default padding */
+    text-align: center; /* Centers the text horizontally, This is in the parent element and applied to the whole body*/
+}
+
+/* Center the header */
+h1 {
+    color: white; /* Optional: set text color to white for better contrast */
+    padding: 50px 0; /* Optional: adds some padding around the header */
+    display: inline-block; /* Makes the outline only as long as the content */
+}
+
+h2 {
+    color:blue; 
+}
+
+p {
+    outline: 2px solid green; /* Adds a green outline to paragraphs */
+    display: inline-block; /* Makes the outline only as long as the content */
+}

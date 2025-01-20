@@ -5,10 +5,15 @@ document.addEventListener('DOMContentLoaded', () => { //The AddEventListener mak
     const toUnitSelect = document.getElementById('toUnit');
     const resultField = document.getElementById('result');
 
+    // This is setting my default units
+    fromUnitSelect.value = 'inches';
+    toUnitSelect.value = 'feet';
+
     // Add event listeners
     inputField.addEventListener('input', convertvalue);
     fromUnitSelect.addEventListener('change', convertvalue); //it is listening for the "change" event
     toUnitSelect.addEventListener('change', convertvalue);
+    
 });
 
 // Function to convert units of length

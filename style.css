@@ -1,21 +1,100 @@
 /* Set the background color of the entire page to gray */
 body {
-    background-color: white;
+    background-color: black;
     font-family: Arial, sans-serif; /* setsfont */
     text-align: center; /* Centers the text horizontally, This is in the parent element and applied to the whole body*/
 }
 
+.header-container {
+    display: block; /* a block-level element that takes up the full width available */
+    text-align: center; /* Centers the text horizontally */
+}
+
+.profile-image{
+    max-width: 100%;
+    height:auto; /* by making it auto, it maintains the aspect ratio */
+    width: 300px;   
+}
+
+.header-text {
+    margin-top: 10px;
+    font-size: 24px;
+    color: white;
+}
+
 h1 {
-    color: black; /* set text color to white for better contrast */
+    color: white; /* set text color to white for better contrast */
     padding: 20px 0; /* adds some padding around the header */
     display: inline-block; /* Makes the outline only as long as the content */
 }
 
 h2 {
     color:blue; 
-    ;
+    font-size: 22px;
 }
 
 p {
     font-size: 20px;
+    color:white;
+}
+
+img {
+    display: block;
+    margin:0 auto;
+    border-radius: 15px; /* Adjust the value to control the roundness */
+    border: 5px solid purple /* Optional: Add a border around the images */
+}
+
+footer{
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    margin-top: 20px;
+    font-size: 12px;
+    text-align: center;
+    padding: 20px 0;
+    background-color: darkgray;
+    width:100%;
+    bottom:0;
+    left:0;
+}
+
+
+.cover-image {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 0px; /* raising the number will round the edges*/
+}
+.image {
+    width: 300px;
+    height: auto;
+}
+
+.image-container:hover .cover { /* the hover element is used to apply styles to an element when hovered over" */
+    opacity: 1;
+}
+
+.text {
+    font-size: 20px;
+    text-align: center;
+
 }

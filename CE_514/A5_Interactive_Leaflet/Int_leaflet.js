@@ -1,7 +1,5 @@
-
-
-// Initialize the map and set its view to a hometown. and set zoom level
-var map = L.map('map').setView([38.8809251,-77.143409], 14);
+// Initialize the map and set its view to a hometown, and set zoom level
+var map = L.map('map').setView([38.8809251, -77.143409], 14);
 
 // Define tile layers
 var streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -13,66 +11,64 @@ var satelliteLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.p
 });
 
 // Circle of 10 min walking radius around home
- var circle = L.circle([38.887558, -77.096971], {
-     radius: 500, //unit is meters
-     color: 'blue',
-     fillColor: 'blue',
-     fillOpacity: 0.5,
+var circle = L.circle([38.887558, -77.096971], {
+    radius: 500, //unit is meters
+    color: 'blue',
+    fillColor: 'blue',
+    fillOpacity: 0.5,
 }).addTo(map);
 circle.bindPopup("10 minute walking radius from apartment");
-  
-//polygon around apartment
-  var polygon = L.polygon([
+
+// Polygon around apartment
+var polygon = L.polygon([
     [38.887725, -77.097276],
     [38.888105, -77.096772],
     [38.887633, -77.096171],
     [38.887279, -77.096665]
-],{
+], {
     color: 'red',
     fillColor: 'red',
-   }).addTo(map);
+}).addTo(map);
 
 // Add the street layer to the map by default
 streetLayer.addTo(map);
-// Marker of a home / The Clarendon Apartments
+
+// Markers for different locations
 L.marker([38.887558, -77.096971]).addTo(map)
     .bindPopup('The Clarendon Apartments')
     .openPopup();
-// Add a marker to the map at a school's coordinates
-L.marker([38.8873526,-77.1114113]).addTo(map)
+L.marker([38.8873526, -77.1114113]).addTo(map)
     .bindPopup('Washington-Liberty High School')
     .openPopup();
-//marker at church, Arlington 2nd Ward
 L.marker([38.887091, -77.133417]).addTo(map)
     .bindPopup("The Church of Jesus Christ of Latter-day Saints<br><br>Fun fact: This building has a wooden plank from Joseph Smith's home")
     .openPopup();
-//marker at other cool places
 L.marker([38.882823, -77.097856]).addTo(map)
     .bindPopup('Ivy Street')
     .openPopup();
 L.marker([38.878301, -77.069607]).addTo(map)
-.bindPopup('Arlington National Cemetery')
-.openPopup();
+    .bindPopup('Arlington National Cemetery')
+    .openPopup();
 
 // Arrays to hold polylines and markers
 var polylines = [];
 var markers = [];
 
-// // Function to add a marker at the clicked location
+// Function to add a marker at the clicked location
 function onMapClick(e) {
-   var marker = L.marker(e.latlng).addTo(map)
-       .bindPopup('You clicked the map at ' + e.latlng.toString())
-       .openPopup();
-    markers.push(marker);//this will add it to the array
+    var marker = L.marker(e.latlng).addTo(map)
+        .bindPopup('You clicked the map at ' + e.latlng.toString())
+        .openPopup();
+    markers.push(marker); // Add it to the array
 
-   // Add event listener for right-click to remove the marker
-   marker.on('contextmenu', function() {
-       map.removeLayer(marker);
-       markers = markers.filter(m => m !== marker); // Remove the marker from the array
-   });
+    // Add event listener for right-click to remove the marker
+    marker.on('contextmenu', function () {
+        map.removeLayer(marker);
+        markers = markers.filter(m => m !== marker); // Remove the marker from the array
+    });
 }
 
-//   Add event listener for map clicks
+// Add event listener for map clicks
 map.on('click', onMapClick);
 
 // Add layer control to switch between street and satellite views
@@ -83,23 +79,7 @@ var baseLayers = {
 
 L.control.layers(baseLayers).addTo(map);
 
-
-
-function compute_distance(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Earth's radius in km
-    const radLat1 = lat1 * Math.PI / 180; //convert to radians
-    const radLng1 = lon1 * Math.PI / 180;
-    const radLat2 = lat2 * Math.PI / 180;
-    const radLng2 = lon2 * Math.PI / 180;
-    const dLat = radLat2 - radLat1; //difference in latitudes
-    const dLon = radLng2 - radLng1; // difference in longitudes
-    //Haversine formula
-    const a = Math.sin(dLat / 2) ** 2 + Math.cos(radLat1) * Math.cos(radLat2) * Math.sin(dLon / 2) ** 2;
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c;
-    document.getElementById("distance").innerHTML = "Distance = " + distance + " km";
-  }
-
+// Function to calculate great circle distance (in km)
 function calculateGreatCircle() {
     // Retrieve input values
     const startLat = parseFloat(document.getElementById('start_lat').value);
@@ -122,8 +102,9 @@ function calculateGreatCircle() {
     const dLat = rad_lat2 - rad_lat1;
     const a = Math.sin(dLat / 2) ** 2 + Math.cos(rad_lat1) * Math.cos(rad_lat2) * Math.sin(dLon / 2) ** 2;
     const angular_distance = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    // Number of segments for the great circle polyline
     const num_segments = 100;
-    const segment_angle = angular_distance / num_segments;
     const points = [];
     for (let i = 0; i <= num_segments; i++) {
         const f = i / num_segments;
@@ -139,18 +120,37 @@ function calculateGreatCircle() {
     const polyline = L.polyline(points, { color: 'red' }).addTo(map);
     polylines.push(polyline);
 
-
-    //add a marker to the ending point
+    // Add a marker to the ending point
     var endMarker = L.marker([endLat, endLon]).addTo(map)
-    .bindPopup('Ending Point: ' + endLat + ', ' + endLon)
-    .openPopup();
+        .bindPopup('Ending Point: ' + endLat + ', ' + endLon)
+        .openPopup();
     markers.push(endMarker);
 
+    // Get the selected unit
+    const unit = document.getElementById('Unit').value;
+
+    // Convert the distance to the selected unit
     const R = 6371; // Earth's radius in km
-    const distance = R * angular_distance;
-    document.getElementById("distance").innerHTML = "Distance = " + distance.toFixed(2) + " km";
+    const distanceInKm = R * angular_distance;
+    const distance = convertToUnit(distanceInKm, unit);
+
+    // Display the distance with the selected unit
+    document.getElementById("distance").innerHTML = "Distance = " + distance.toFixed(2) + " " + unit;
 }
 
+// Function to convert distance to the selected unit
+function convertToUnit(distance, unit) {
+    const units = {
+        kilometers: distance,
+        meters: distance * 1000,
+        miles: distance * 0.621371,
+        feet: distance * 3280.84,
+        inches: distance * 39370.1
+    };
+    return units[unit] || distance; // default to kilometers if unit is invalid
+}
+
+// Function to clear the map
 function clearMap() {
     // Remove all polylines from the map
     for (const polyline of polylines) {

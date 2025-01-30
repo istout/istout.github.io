@@ -6,7 +6,7 @@
     <title>Leaflet Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>src="/Users/ivystout/Github/istout.github.io/CE_514/leaflet-kml-master/L.KML.js"</script>
+    <script src="https://istout.github.io/CE_514/leaflet-kml-master/L.KML.js"></script>
     <style>
         #map {
             height: 600px; /* Set the height of the map */
@@ -64,19 +64,22 @@
         L.control.layers(baseLayers).addTo(map);
 
         // Load kml file
-        fetch('Counties.kml')
-                .then(res => res.text())
-                .then(kmltext => {
-                    // Create new kml overlay
-                    const parser = new DOMParser();
-                    const kml = parser.parseFromString(kmltext, 'text/xml');
-                    const track = new L.KML(kml);
-                    map.addLayer(track);
+        fetch('https://istout.github.io/CE_514/Counties.kml')
+            .then(res => res.text())
+            .then(kmltext => {
+                // Create new KML overlay
+                const parser = new DOMParser();
+                const kml = parser.parseFromString(kmltext, 'text/xml');
+                const track = new L.KML(kml);
+                map.addLayer(track);
 
-                    // Adjust map to show the kml
-                    const bounds = track.getBounds();
-                    map.fitBounds(bounds);
-                });
+                // Adjust map to show the KML
+                const bounds = track.getBounds();
+                map.fitBounds(bounds);
+            })
+            .catch(error => {
+                console.error('Error loading KML file:', error);
+            });
     </script>
 </body>
 </html>

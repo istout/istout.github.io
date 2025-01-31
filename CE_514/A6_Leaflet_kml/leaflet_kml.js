@@ -50,7 +50,7 @@ L.control.layers(baseLayers).addTo(map); //allows for the kml to be switched
 var kmlLayer;
 
 // Initialize the KML layer and add it to the map when ready
-const kmlUrl = 'Counties.kml';
+const kmlUrl = 'https://cors-anywhere.herokuapp.com/https:github.com/istout/istout.gitbucket.io/blob/master/CE_514/A6_Leaflet_kml/utah_counties.kml';
 
 omnivore.kml(kmlUrl).on('ready', function() {
     kmlLayer = this; // Assign the KML layer to the variable

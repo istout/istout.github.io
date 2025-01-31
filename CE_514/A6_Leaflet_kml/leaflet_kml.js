@@ -2,6 +2,7 @@
 // Initialize the map and set its view to BYU's geographical coordinates and zoom level
 var map = L.map('map').setView([40.246331, -111.647653], 15);
 
+
 // Define tile layers
 var streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -40,21 +41,40 @@ var baseLayers = {
     "Satellite View": satelliteLayer
 };
 
-// var overlays = {
-// "Counties": kmlLayer
-// };
-
 L.control.layers(baseLayers).addTo(map); //allows for the kml to be switched 
 
 // Define the variable for the KML layer
-var kmlLayer;
+//var kmlLayer;
 
 // Initialize the KML layer and add it to the map when ready
-const kmlUrl = 'https://cors-anywhere.herokuapp.com/https:github.com/istout/istout.gitbucket.io/blob/master/CE_514/A6_Leaflet_kml/utah_counties.kml';
+const kmlUrls = [
+    'https://cors-anywhere.herokuapp.com/https://istout.github.io/CE_514/A6_Leaflet_kml/KML_import.kml',
+    'https://cors-anywhere.herokuapp.com/https://istout.github.io/CE_514/A6_Leaflet_kml/Counties.kml'
+];
 
-omnivore.kml(kmlUrl).on('ready', function() {
-    kmlLayer = this; // Assign the KML layer to the variable
-    kmlLayer.addTo(map); // Add it to the map once it's ready
-}).on('error', function(e) {
-    console.error('Error loading KML:', e);
+kmlUrls.forEach(function(url) {
+    omnivore.kml(url).on('ready', function() {
+        this.addTo(map);
+        
+        this.eachLayer(function(layer) {
+            if (layer.feature.properties.name === 'Utah') {
+                layer.setStyle({
+                    color: 'red',
+                    fillColor: 'red',
+                    fillOpacity: 0.5
+                });
+            }
+        }); 
+    }).on('error', function(e) {
+        console.error('Error loading KML:', e);
+    });
 });
+// omnivore.kml(kmlUrl).on('ready', function() {
+//     this.addTo(map);
+
+//     // kmlLayer = this; // Assign the KML layer to the variable
+//     // kmlLayer.addTo(map); // Add it to the map once it's ready
+// }).on('error', function(e) {
+//     console.error('Error loading KML:', e);
+//});
+

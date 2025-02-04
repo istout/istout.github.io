@@ -30,8 +30,8 @@ L.control.layers(baseLayers).addTo(map); //allows for the kml to be switched
 
 // Initialize the KML layer and add it to the map when ready
 const kmlUrls = [
-    'https://cors-anywhere.herokuapp.com/https://istout.github.io/CE_514/A6_Leaflet_kml/KML_import.kml',
-    'https://cors-anywhere.herokuapp.com/https://istout.github.io/CE_514/A6_Leaflet_kml/UtahCounty.kml'
+    'KML_import.kml',
+    'UtahCounty.kml'
 ];
 
 kmlUrls.forEach(function(url) {

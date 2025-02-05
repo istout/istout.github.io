@@ -40,7 +40,7 @@ kmlUrls.forEach(function(url) {
         this.addTo(map);
         
         this.eachLayer(function(layer) {
-            if (layer.feature.properties.name === 'Utah') {
+            if (layer.feature.properties.name == 'Utah') {
                 layer.setStyle({
                     color: 'red',
                     fillColor: 'red',

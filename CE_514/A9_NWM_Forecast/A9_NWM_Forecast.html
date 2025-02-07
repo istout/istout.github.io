@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Leaflet Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="Int_leaflet.css">
+</head>
+<body>
+  <div id="header">
+    <h1>My Leaflet Map</h1>
+    <p>Ivy Stout</p>
+    <p> Assignment: A5 - Build an Interactive Page with Leaflet Open Source Mapping API</p>
+    <p>Class: CE 514</p>
+    <p>Date: 1/28/2025</p>
+    <h2>Click to place a pin. Right click to delete the placed pin.</h2>
+    </div>
+    <h2>    </h2>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <h2></h2>
+    
+    <div id="great_circle">
+        <h2>Enter your starting and ending coordinates</h2>
+        <label for="start_lat">Starting Latitude:</label>
+        <input type="number" id="start_lat" name="start_lat" value="38.887558">
+        <label for="start_lon">Starting Longitude:</label>
+        <input type="number" id="start_lon" name="start_lon" value="-77.096971">
+        <p>
+        <label for="end_lat">Ending Latitude:</label>
+        <input type="number" id="end_lat" name="end_lat" value="40.246331">
+        <label for="end_lon">Ending Longitude:</label>
+        <input type="number" id="end_lon" name="end_lon" value="-111.647653">
+        </p>
+    </div>
+
+    <div>
+        <label for="Unit">Units (Default is km):</label> 
+        <select id="Unit"> 
+            <option value="kilometers">Kilometers</option> 
+            <option value="meters">Meters</option> 
+            <option value="miles">Miles</option>
+            <option value="feet">Feet</option>
+            <option value="inches">Inches</option>
+        </select> 
+    </div>
+        <p><button onclick="calculateGreatCircle()">Calculate Great Circle Distance</button></p>
+        <p><button onclick="clearMap()">Clear added Lines and Markers</button></p>
+        <h3 id="distance"> </h3>
+    
+    <script src="Int_leaflet.js"></script>
+</body>
+</html>

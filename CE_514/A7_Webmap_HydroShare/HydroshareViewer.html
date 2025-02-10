@@ -2,23 +2,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>HydroShare Web Viewer</title>
+    <title>Simple Leaflet Web Map test 3</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="HydroshareViewer.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script>src="HydroshareViewer.js"</script>
-
 </head>
 <body>
-    <h1>View data from HydroShare</h1>
-    <p> Use the checkboxes to toggle on and off layers</p>
-    <div id="map" style="width: 100%; height: 600px;"></div>
-   
+    <h1>Simple WMS Demo</h1>
+    <div id="map" style="width: 80%; height: 600px;"></div>
+    
+<label>
+        <input type="checkbox" id="layer1checkbox" onchange="toggleLayer1()"> Layer1
+    </label>
+    <label>
+        <input type="checkbox" id="layer2checkbox" onchange="toggleLayer2()"> Layer2
+    </label>
 
-    <p> </p>
-    <p>Here is the code I used to do this: </p>
-        <code>
-            
-        </code>
 </body>
 </html>

@@ -4,68 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NWM Forecast Viewer</title>
-
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
-    <link rel="stylesheet" href="Int_leaflet.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js library, this is what will load in the chart. <canvas> tag uses it-->
+    <link rel="stylesheet" href="USNWM.css">
+   
 </head>
+
 <body>
-  <div id="header">
-    <h1>National Water Model (NWM) Forecasts</h1>
-    <p>Ivy Stout</p>
-    <p> Assignment: A8 - </p>
-    <p>Class: CE 514</p>
-    <p>Page last updated: 2/6/2025</p>
+    <header>    
+        <h1>National Water Model (NWM) Forecasts</h1>
+        <p>Ivy Stout</p>
+        <p>Assignment: A8 - </p>
+        <p>Class: CE 514</p>
+        <p>Date: 2/6/2025</p>
+    </header>
+    <div id="text-container">
     <h2></h2>
-    <p> The National Water Model (NWM) is _______________________</p>    
+    <p> The National Water Model (NWM) simulates oberved and forecast streamflow over the entire continental US, parts of Alaska, Hawaii, and the US Virgin Islands. It is a "high-resolution, continental-scale, operational hydrologic model providing streamflow and other guidance for a broad range of applications" (Cosgrove,B, et. al. 2024).  </p>    
     <p> If you want to learn more about the NWM, here are some resources:</p>
         <ul>
-            <li><a href="https://water.noaa.gov/about/nwm">NOAA NWM Overview</a></li>
-            <li><a href="https://www.sciencedirect.com/science/article/pii/S1364815224001841">ScienceDirect Paper</a></li>
-            <li><a href="https://onlinelibrary.wiley.com/doi/full/10.1111/1752-1688.13184">Wiley Online Library Paper</a></li>
+            <li><a href="https://water.noaa.gov/about/nwm" target="_blank">NOAA NWM Overview </a></li>
+            <li><a href="https://www.sciencedirect.com/science/article/pii/S1364815224001841" target="_blank">ScienceDirect Paper</a></li>
+            <li><a href="https://onlinelibrary.wiley.com/doi/full/10.1111/1752-1688.13184" target="_blank">Wiley Online Library Paper</a></li>
         </ul>
-    
+    </div>
+
 <!-- api.water.noaa.gov, Try it out button after expanding it 
 May also just need to google the reach ID -->
 <!-- https://water.noaa.gov/about/api 
 danames.com/leaflet/nwm/a6/howitworks.html 
 -->
-
-
-<!-- Code from leaflet a5 -->
+<!--Let user enter Reach ID-->
+<div id="text-container">
+<h2>Enter a Reach ID:</h2>
+<p>Look on the <a href="https://water.noaa.gov/" target="_blank">National Water Prediction Service</a> page to find a ReachID for the area of interest. </p>
+  <input type="text" id="reachIdInput" placeholder="Enter a Reach ID" value="23021904"> <!--23021904-->
+  <button onclick="getForecast()">Get Forecast</button> 
+  <p>Copy some of these ID's for examples: 23021904, 12121104 </p>
 </div>
-    <h2>    </h2>
-    <div id="map"></div>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <h2></h2>
-    
-    <div id="great_circle">
-        <h2>Enter your starting and ending coordinates</h2>
-        <label for="start_lat">Starting Latitude:</label>
-        <input type="number" id="start_lat" name="start_lat" value="38.887558">
-        <label for="start_lon">Starting Longitude:</label>
-        <input type="number" id="start_lon" name="start_lon" value="-77.096971">
-        <p>
-        <label for="end_lat">Ending Latitude:</label>
-        <input type="number" id="end_lat" name="end_lat" value="40.246331">
-        <label for="end_lon">Ending Longitude:</label>
-        <input type="number" id="end_lon" name="end_lon" value="-111.647653">
-        </p>
-    </div>
+<!--Display the forecast data and chart here-->
+<div id="forecast-container">
+    <table id="timeseries-datatable">
+        <thead> <!-- this is where the table will be displayed -->
+        <tr>
+            <th>Timestamp</th>
+            <th>Flow value (cfs)</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    </table>
+    <canvas id="streamflowChart"></canvas>    <!-- display the chart -->
+</div>
 
-    <div>
-        <label for="Unit">Units (Default is km):</label> 
-        <select id="Unit"> 
-            <option value="kilometers">Kilometers</option> 
-            <option value="meters">Meters</option> 
-            <option value="miles">Miles</option>
-            <option value="feet">Feet</option>
-            <option value="inches">Inches</option>
-        </select> 
-    </div>
-        <p><button onclick="calculateGreatCircle()">Calculate Great Circle Distance</button></p>
-        <p><button onclick="clearMap()">Clear added Lines and Markers</button></p>
-        <h3 id="distance"> </h3>
-    
-    <script src="Int_leaflet.js"></script>
+<div id="howitworks">
+    <h2>How it Works</h2>
+    <p>This code takes the entered Reach ID input then retrieves the date from the NWM API. </p>
+    <pre>
+    <code>
+        const apiUrl = `https://api.water.noaa.gov/nwps/v1/reaches/${reachId}/streamflow?series=short_range`;
+        const response = await fetch(apiUrl);
+    </code>
+    </pre>
+    <p>Then the data is displayed in the table and chart using JavaScript and Chart.js. Chart.js is a library that is called into this code. </p>
+    <pre>
+        <code>
+            In Head section
+                src="https://cdn.jsdelivr.net/npm/chart.js">
+
+            Called later in the html code in the area the chart is to be displayed
+                  canvas  id="streamflowChart">           
+        </code>
+    </pre>
+</div>
+
+<script src="USNWM.js"></script>
+
 </body>
 </html>

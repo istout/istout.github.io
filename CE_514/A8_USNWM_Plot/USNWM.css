@@ -1,50 +1,93 @@
-/* Set the background color of the entire page to gray */
-body {
-    background-color: #808080; /* gray */
-    font-family: Arial, sans-serif; /* Optional: sets a nice font */
-    margin: 0; /* Remove default margins */
-    padding: 0; /* Remove default padding */
-    text-align: center; /* Centers the text horizontally, This is in the parent element and applied to the whole body*/
-}
-
-/* Center the header */
-h1 {
-    color: darkgreen; /* Optional: set text color to white for better contrast */
-    padding: 5px 0; /* Optional: adds some padding around the header */
-
-}
-
-h2 {
-    color:blue; 
-}
-
-p {
-    
-    display: block; /* Makes the outline only as long as the content */
-}
-#header {
-  border: 2px solid black;
-    background-color: white;
-    font-size: 20px;
-    font-weight: bold;
-    padding-bottom: 10px;
-    width:100%;
-    margin:0 auto;
-}
-#map {
-    height: 600px; /* Set the height of the map */
-    width: 80%; /* Set the width of the map to full container width */
-    margin: 0 auto; /* Center the map horizontally */
-}
-
-#great_circle {
+header {
     border: 2px solid black;
     background-color: white;
     font-size: 20px;
     font-weight: bold;
-    padding-bottom: 10px;
-    width:80%;
+    width:100%;
     margin:0 auto;
+    text-align: center;
+  }
 
+body {
+    background-color: gray; 
+    font-family: Arial, sans-serif; /* Optional: sets a nice font */
+    margin: 15px; 
+}
+
+h1,h2 {
+    color: blue; /* Optional: set text color to white for better contrast */
+    padding: 5px 0; /* Optional: adds some padding around the header */
+
+}
+
+a {
+    color: #007bff; 
+    text-decoration: none;
+  }
+
+p {
+    display: block; /* Makes the outline only as long as the content */
+}
+
+#text-container {
+    border: 2px solid black;
+    background-color: white;
+    padding: 10px;
+    margin: 10px auto;
+}
+
+#reachIDInput {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 15px 0;
+    box-sizing: border-box;
+    border: 2px solid black;
+    border-radius: 4px;
+}
+
+#forecast-container {
+    display:none;
+    border: 2px solid black;
+    background-color: white;
+    padding: 10px;
+    margin: 10px auto;
+    overflow:auto; 
+    max-height: 700px;;
+}
+
+#timeseries-datatable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    border: 1px solid #dee2e6;
+  }
+  
+  #timeseries-datatable th, #timeseries-datatable td {
+    border: 1px solid #dee2e6;
+    padding: 12px; /* Increased padding */
+    text-align: left;
+    background-color: white; /* Ensures table cells have a white background */
+  }
+  
+  #timeseries-datatable th {
+    background-color: #f2f2f2; /* Light gray background for table header */
+    font-weight: bold;
+  }
+  
+  #streamflowChart {
+    margin-top: 20px;
+  }
+
+#howitworks {
+    border: 2px solid black;
+    background-color: white;
+    padding: 10px;
+    margin: 10px auto;
+}
+code{
+    display:block;
+    white-space: pre-wrap;
+    background-color: black;
+    color: white;
 
 }

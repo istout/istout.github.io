@@ -29,22 +29,4 @@ p {
     font-weight: bold;
     padding-bottom: 10px;
     width:100%;
-    margin:0 auto;
-}
-#map {
-    height: 600px; /* Set the height of the map */
-    width: 80%; /* Set the width of the map to full container width */
-    margin: 0 auto; /* Center the map horizontally */
-}
-
-#great_circle {
-    border: 2px solid black;
-    background-color: white;
-    font-size: 20px;
-    font-weight: bold;
-    padding-bottom: 10px;
-    width:80%;
-    margin:0 auto;
-
-
 }

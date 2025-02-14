@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How it works</title>
+    <link rel="stylesheet" href="howitworks.css">
+</head>
+<body>
+
+    <header>
+        <h1>How I built the website and application</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>How the website was built:</h2>
+            <p>This section will show how I built the basics of my website and how the application works. It website uses html, javascript, and styling sheets, and the National Water Models API to retrieve streamflwo forecasts.</p>
+            <h2>Introduction</h2>
+            <p>This page explains how the NWM Forecast Viewer web application works, breaking down the code step-by-step. This application uses HTML, CSS, JavaScript, and the NOAA NWPS API to fetch and display streamflow forecasts from the National Water Model (NWM).</p>
+        </section>
+
+        <section>
+            <h2>HTML Structure (index.html)</h2>
+            <p>The HTML file (`index.html`) sets up the basic structure of the web page. It includes:</p>
+            <ul>
+                <li>Headings and paragraphs to provide information about the NWM.</li>
+                <li>Links to relevant NWM resources.</li>
+                <li>An input field (`#reachIdInput`) for the user to enter a Reach ID.</li>
+                <li>A button to trigger the forecast retrieval.</li>
+                <li>A container (`#forecast-container`) to hold the forecast table and chart (initially hidden).</li>
+                <li>A table (`#timeseries-datatable`) to display the forecast data.</li>
+                <li>A canvas element (`#streamflowChart`) for the chart.</li>
+                <li>A "How It Works" section.</li>
+                <li>Links to the JavaScript (`script.js`) and CSS (`style.css`) files.</li>
+            </ul>
+            <p>The forecast container, table, and chart are initially hidden using CSS and are shown only after the user clicks the "Get Forecast" button and data is successfully retrieved.</p>
+        </section>
+
+        <section>
+            <h2>JavaScript Functionality (script.js)</h2>
+            <p>The JavaScript file (`script.js`) contains the core logic of the application. The `getForecast()` function is the heart of this process:</p>
+
+            <h3>1. Getting the Reach ID</h3>
+            <p>The function first retrieves the Reach ID entered by the user from the input field:</p>
+            <pre class="code-snippet"><code>const reachId = document.getElementById('reachIdInput').value;</code></pre>
+
+            <h3>2. Validating Input</h3>
+            <p>It then checks if the user has entered a Reach ID:</p>
+            <pre class="code-snippet"><code>if (!reachId) {
+    alert("Please enter a Reach ID.");
+    return;
+}</code></pre>
+
+            <h3>3. Making the API Call</h3>
+            <p>The application makes a request to the NOAA NWPS API using the Fetch API:</p>
+            <pre class="code-snippet"><code>const apiUrl = `https://api.water.noaa.gov/nwps/v1/reaches/${reachId}/streamflow?series=short_range`;
+const response = await fetch(apiUrl);</code></pre>
+
+            <h3>4. Handling the API Response</h3>
+            <p>The code checks for errors in the API response:</p>
+            <pre class="code-snippet"><code>if (!response.ok) {
+    throw new Error(`HTTP error status: ${response.status} - ${response.statusText}`);
+}</code></pre>
+<p>And parses the JSON response:</p>
+<pre class="code-snippet"><code>const json_data = await response.json();</code></pre>
+<p>It then handles cases where there may not be any data:</p>
+<pre class="code-snippet"><code>if (!json_data.shortRange ||!json_data.shortRange.series ||!json_data.shortRange.series.data || json_data.shortRange.series.data.length === 0) {
+    throw new Error("No forecast data available for this Reach ID.");
+}</code></pre>
+
+            <h3>5. Extracting Data</h3>
+            <p>The code extracts the timestamps and flow values from the JSON data:</p>
+            <pre class="code-snippet"><code>const streamflowData = json_data.shortRange.series.data;
+const timestamps = streamflowData.map(item => item.validTime);
+const flowValues = streamflowData.map(item => item.flow);</code></pre>
+
+            <h3>6. Updating the Table</h3>
+            <p>The table is updated with the retrieved data:</p>
+            <pre class="code-snippet"><code>const table = document.getElementById('timeseries-datatable').getElementsByTagName('tbody');
+table.innerHTML = ""; // Clear previous data
+
+for (let i = 0; i &lt; streamflowData.length; i++) {
+    //... (add rows and cells to the table)
+}</code></pre>
+
+            <h3>7. Creating/Updating the Chart</h3>
+            <p>Chart.js is used to create or update the chart:</p>
+            <pre class="code-snippet"><code>const ctx = document.getElementById('streamflowChart').getContext('2d');
+let chart = Chart.getChart('streamflowChart'); // Check if chart exists
+
+if (chart) {
+    chart.destroy(); // Destroy existing chart
+}
+
+chart = new Chart(ctx, { // Create new chart
+    type: 'line',
+    //... (chart configuration)
+});</code></pre>
+
+            <h3>8. Error Handling</h3>
+            <p>A `try...catch` block handles potential errors during the API call or data processing.  Error messages are displayed to the user using `alert()`, and the table and chart are cleared.</p>
+        </section>
+
+        
+
+        <section>
+            <h2>Enhancements and Further Exploration</h2>
+            <p>Here are some ideas for improving and enhancing the NWM Forecast Viewer:</p>
+            <ul>
+                <li>**Data Visualization:** Explore different chart types in Chart.js or other charting libraries (see below) to visualize the data in different ways.</li>
+                <li>**User Interface:** Improve the user interface with better layout, styling, and user interactions.</li>
+                <li>**Data Filtering:** Add options to filter the forecast data by time range or other criteria.</li>
+                <li>**Data Export:** Implement functionality to export the forecast data in various formats (e.g., CSV, JSON).</li>
+                <li>**Map Integration:** Integrate a map to show the location of the reach and other relevant information.</li>
+                <li>**Error Handling:** Implement more robust error handling and provide more specific error messages to the user.</li>
+                <li>**Accessibility:** Improve the accessibility of the web application for users with disabilities.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Other Charting Libraries</h2>
+            <p>Besides Chart.js, here are some other popular JavaScript charting libraries you could explore:</p>
+            <ul>
+                <li>D3.js: A powerful and highly customizable library for creating complex data visualizations.</li>
+                <li>Plotly.js: A versatile library that supports a wide range of chart types and interactive features.</li>
+                <li>ApexCharts: A modern charting library with a clean design and many built-in features.</li>
+                <li>Google Charts: A free and easy-to-use library provided by Google.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Ivy Stout</p>
+    </footer>
+</body>
+</html>

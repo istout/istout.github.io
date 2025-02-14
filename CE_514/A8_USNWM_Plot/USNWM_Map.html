@@ -61,7 +61,7 @@ danames.com/leaflet/nwm/a6/howitworks.html
     <p>This code takes the entered Reach ID input then retrieves the date from the NWM API. </p>
     <pre>
     <code>
-        const apiUrl = `https://api.water.noaa.gov/nwps/v1/reaches/${reachId}/streamflow?series=long_range`;
+        const apiUrl = `https://api.water.noaa.gov/nwps/v1/reaches/${reachId}/streamflow?series=long_range`; <!--change out =___________ for "analysis_assimilation","short_range","medium_range","long_range", "medium_range_blend"-->
         const response = await fetch(apiUrl);
     </code>
     </pre>

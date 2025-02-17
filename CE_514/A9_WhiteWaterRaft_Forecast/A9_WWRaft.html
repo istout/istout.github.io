@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>White Water Rafting</title>
+    <link rel="stylesheet" href="A9_WWRaft.css">
+</head>
+
+<header>
+  <h1>White Water Rafting</h1>
+  <p>See the river forecast for the Rio Grande River and _____________ River in New Mexico</p>
+
+</header>
+<body>
+  <h1>Include link to About ME</h1>
+  Have picure of someone white water rafting in background. 
+Refer to mock up
+
+
+d6eeb177c15544fc9976b15278368adc
+  
+
+  - simple instructions. 
+  - 
+
+
+
+    <h1>
+Hydroshare: 
+https://hydroshare.org/resource/d6eeb177c15544fc9976b15278368adc/
+
+    </h1>
+    <p> Chattoga River at Summerville 
+        Reach ID: 15822875
+
+        Forecast
+
+        https://gagiohome-gagio.hub.arcgis.com/#data
+        Link to Georgia's geospatial data
+
+
+
+        RIO grande near San Acacia (can't find future data)
+        17811742
+
+        The long range does work on the API site with flows into the future. Pursue this one. 
+
+        <a href='https://api.water.noaa.gov/nwps/v1/docs/#/Reaches/Reaches_GetStreamflow' target="_blank">ReachID Swagger Test</a>
+    </p>
+    
+
+    <div id="selection">
+      <p> Enjoy the thrill of white water rafting in New Mexico. Use this forecast to see the predictions for the water flow.</p>
+      <p>Please choose which river forecast to view.</p>
+      <label><input type="checkbox" id="RioGrande" onchange="toggleCheckbox(this, 'RioGrandeFunction')" checked> Rio Grande</label>
+      <label><input type="checkbox" id="River2" onchange="toggleCheckbox(this, 'River2Function')"> River 2</label>
+      <label><input type="checkbox" id="River3" onchange="toggleCheckbox(this, 'River3Function')"> River 3</label>
+      <label><input type="checkbox" id="River4" onchange="toggleCheckbox(this, 'River4Function')"> River 4</label>
+      <label><input type="checkbox" id="River5" onchange="toggleCheckbox(this, 'River5Function')"> River 5</label>
+    </div>
+
+    <div id="map">
+      <script src="A9_WWRaft.js"></script>
+    </div>
+
+
+    <div id="text-container">
+     
+      <p>Use this forecast to find determine the classification of the water conditions so you can be safe while having a good time. </p>
+
+      <table>
+        <tr>
+          <th>Category</th>
+          <th>Flow Range</th>
+          <th>Skill Level</th>
+        </tr>
+        <tr>
+          <td>Class 1</td>
+          <td>1000-#####</td>
+          <td>Beginner</td>
+        </tr>
+        <tr>
+          <td>Category 2</td>
+          <td>1000-#####</td>
+          <td>Beginner</td>
+        </tr>
+        <tr>
+          <td>Category 3</td>
+          <td>1000-#####</td>
+          <td>Beginner</td>
+        </tr>
+        <tr>
+          <td>Category 4</td>
+          <td>1000-#####</td>
+          <td>Beginner</td>
+        </tr>
+        <tr>
+          <td>Category 4</td>
+          <td>1000-#####</td>
+          <td>DANGEROUS FOR ALL.</td>
+        </tr>
+
+      </table>
+
+      <table>
+        <tr>
+          <th>Skill Level</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>Class 1</td>
+          <td>A calm float</td>
+        </tr>
+        <tr>
+          <td>Class 2</td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td>Advanced</td>
+          <td>Description</td>
+        </tr>
+        <tr>
+          <td>Expert</td>
+          <td>Description</td>
+        </tr>  
+      </table>
+    </div>
+    <div id="text-container"> <!--This section will give link to forward them to other websites to see how website works and how forecast data is collected.-->
+      <h2>Where does the forecast data come from?</h2>
+      <p>The data is gathered from the National Water Model (NWM). As you choose the river you want to see, the website pulls the specific river forecast data from the model and displays it here. </p>
+      <p>See <a href="/A8_USNWM_Plot/USNWM_Map.html" target="_blank">how it works</a> for more information on how the data is fetched from the NWM api.</p>
+      <h2> How does the page work?</h2>
+      <p><a href="howitworks.html" target="_blank"><img src="questionmark.jpg" alt="ICON" style="width:32px; height:32px;"></p>
+    </div>
+    
+
+</body>
+
+
+<footer>
+  <p>Learn more about the creator of this website. <a href="index.html"target="_blank">About Me (FIX THIS LINK) </a></p>
+  <p>A lot of the white water rafting information gathered from <a href='https://www.losriosriverrunners.com/' target="_blank">Los Rios River Runners</a></p>
+</footer>
+
+
+</html>

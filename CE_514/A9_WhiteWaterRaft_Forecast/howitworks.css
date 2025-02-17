@@ -24,3 +24,17 @@ main {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+#map {
+    width:80%;
+    height:600px;
+    
+}
+
+code{
+    display:block;
+    white-space: pre-wrap;
+    background-color: black;
+    color: white;
+
+}

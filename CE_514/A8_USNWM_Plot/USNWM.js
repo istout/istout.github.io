@@ -14,7 +14,7 @@ forecastcontainer.style.display = 'block';
 //make the API call to the USNWM API
 try {
     const apiUrl = `https://api.water.noaa.gov/nwps/v1/reaches/${reachId}/streamflow?series=short_range`;
-    const response = await fetch(apiUrl);
+    const response = await fetch(apiUrl);``
     if (!response.ok) {
       throw new Error(`HTTP error status: ${response.status} - ${response.statusText}`);
     }

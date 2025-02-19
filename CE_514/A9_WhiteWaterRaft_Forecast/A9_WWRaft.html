@@ -16,8 +16,8 @@
 
 </header>
 <body>
-  <h1>Include link to About ME</h1>
-  Have picure of someone white water rafting in background. 
+  <h1>Have picure of someone white water rafting in background.</h1>
+  
 Refer to mock up
 
 
@@ -72,11 +72,11 @@ https://hydroshare.org/resource/d6eeb177c15544fc9976b15278368adc/
     <div id="selection">
       <p> Enjoy the thrill of white water rafting in New Mexico. Use this forecast to see the predictions for the water flow.</p>
       <p>Please choose which river forecast to view.</p>
-      <label><input type="checkbox" id="River1" onchange="toggleCheckbox(this, 'River1Function')" checked> Rio Grande at Embudo</label>
-      <label><input type="checkbox" id="River2" onchange="toggleCheckbox(this, 'River2Function')"> Rio Grande near Cerro</label>
-      <label><input type="checkbox" id="River3" onchange="toggleCheckbox(this, 'River3Function')"> River 3</label>
-      <label><input type="checkbox" id="River4" onchange="toggleCheckbox(this, 'River4Function')"> River 4</label>
-      <label><input type="checkbox" id="River5" onchange="toggleCheckbox(this, 'River5Function')"> River 5</label>
+      <label><input type="checkbox" id="River1" onchange="toggleCheckbox(this, 'River1Function')" > Rio Chama below El Vado Dam</label>
+      <label><input type="checkbox" id="River2" onchange="toggleCheckbox(this, 'River2Function')"> Rio Chama below Abiquiu</label>
+      <label><input type="checkbox" id="River3" onchange="toggleCheckbox(this, 'River3Function')"> Rio Chama near Chamita</label>
+      <label><input type="checkbox" id="River4" onchange="toggleCheckbox(this, 'River4Function')"> Rio Grande below Taos</label>
+      <label><input type="checkbox" id="River5" onchange="toggleCheckbox(this, 'River5Function')"> Rio Grande near Cerro</label>
       <p></p>
       <select id="Series_Type"> 
         <option value="short_range">Short Range</option>
@@ -84,14 +84,27 @@ https://hydroshare.org/resource/d6eeb177c15544fc9976b15278368adc/
         <option value="long_range">Long Range</option> 
         <option value="medium_range_blend:">Medium Range Blend</option> 
       </select> 
-      <button onclick="Show_Forecast()">Show Forecast</button> 
+     
     </div>
 
     <div id="map">
       <script src="A9_WWRaft.js"></script>
 
     </div>
-
+    Make forecast go away when you click the next checkmark
+    <div id="forecast-container">
+      <table id="timeseries-datatable">
+          <thead> <!-- this is where the table will be displayed -->
+          <tr>
+              <th>Timestamp</th>
+              <th>Flow value (cfs)</th>
+          </tr>
+      </thead>
+      <tbody>
+      </tbody>
+      </table>
+      <canvas id="streamflowChart"></canvas>    <!-- display the chart -->
+  </div>
 
     <div id="text-container">
      

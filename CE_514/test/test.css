@@ -1,0 +1,90 @@
+body {
+    background-color: grey; 
+    font-family: Arial, sans-serif;
+    margin: 0; /* Remove default margins */
+    padding: 0; /* Remove default padding */
+    text-align: center; /* Centers the text horizontally, This is in the parent element and applied to the whole body*/
+    background-image: "river.png";
+    background-size: cover; /*makes it so it cover entire background*/
+    background-attachment: fixed; /*makes it so the image doesn't scroll as screen scrolls */
+}
+
+
+h1 {
+    color: blue; /* Optional: set text color to white for better contrast */
+    padding: 5px 0; /* Optional: adds some padding around the header */
+}
+
+h2 {
+    color:blue; 
+}
+
+p {
+    
+    display: block; /* Makes the outline only as long as the content */
+}
+header {
+    background-color: rgb(101, 101, 101);
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 10px;
+    width:100%;
+}
+
+#text-container {
+    border: 2px solid black;
+    background-color: white;
+    padding: 10px;
+    margin: 10px auto;
+    width: 80%
+}
+
+
+#selection {
+    border: 2px solid black;
+    background-color: white;
+    padding: 10px;
+    margin: 10px auto;
+    width: 80%
+}
+
+#map {
+    height: 600px;  /* Set the height of the map */
+    width: 80%;    /* Map will take up the full width */
+    margin: 0 auto; /* Center the map */
+}
+
+
+#forecast-container {
+    display:none;
+    border: 2px solid black;
+    background-color: white;
+    padding: 10px;
+    margin: 10px auto;
+    overflow:auto; 
+    max-height: 700px;;
+    width:80%;
+}
+
+#timeseries-datatable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    border: 1px solid #dee2e6;
+  }
+  
+  #timeseries-datatable th, #timeseries-datatable td {
+    border: 1px solid #dee2e6;
+    padding: 12px; /* Increased padding */
+    text-align: left;
+    background-color: white; /* Ensures table cells have a white background */
+  }
+  
+  #timeseries-datatable th {
+    background-color: #f2f2f2; /* Light gray background for table header */
+    font-weight: bold;
+  }
+  
+  #streamflowChart {
+    margin-top: 20px;
+  }

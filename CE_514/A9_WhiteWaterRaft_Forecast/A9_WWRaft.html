@@ -6,92 +6,46 @@
     <title>White Water Rafting</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="A9_WWRaft.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js library, this is what will load in the chart. <canvas> tag uses it-->   
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.0.0"></script>
 
+    <link rel="stylesheet" href="A9_WWRaft.css">
 </head>
 
 <header>
   <h1>White Water Rafting</h1>
-  <p>See the river forecast for the Rio Grande River and _____________ River in New Mexico</p>
-
+  <p>See the river forecast for the Rio Grande and Rio Chama in New Mexico</p>
+  <h1></h1>
 </header>
+
 <body>
-  <h1>Have picure of someone white water rafting in background.</h1>
-  
-Refer to mock up
-
-
-d6eeb177c15544fc9976b15278368adc
-  
-
-  - simple instructions. 
-  - 
-
-  Rio Grande at Embudo: 17864756
-
-  Rio Chama near Chamita: 17848906
-
-  Middle box (kinda)
-  Rio Grande near Cerro : 17863292
-
-  Rio Chama above Abiquiu: 17846526
-
-
-
-<p> <a href="https://api.water.noaa.gov/nwps/v1/docs/#/Reaches/Reaches_GetStreamflow" target="_blank">Swagger test</a></p>
-
-
-
-
-
-
-    <h1>
-Hydroshare: 
-https://hydroshare.org/resource/d6eeb177c15544fc9976b15278368adc/
-
-    </h1>
-    <p> Chattoga River at Summerville 
-        Reach ID: 15822875
-
-        Forecast
-
-        https://gagiohome-gagio.hub.arcgis.com/#data
-        Link to Georgia's geospatial data
-
-
-
-        RIO grande near San Acacia (can't find future data)
-        17811742
-
-        The long range does work on the API site with flows into the future. Pursue this one. 
-
-        <a href='https://api.water.noaa.gov/nwps/v1/docs/#/Reaches/Reaches_GetStreamflow' target="_blank">ReachID Swagger Test</a>
-    </p>
-    
-
+    <h1>   </h1>
+   
     <div id="selection">
       <p> Enjoy the thrill of white water rafting in New Mexico. Use this forecast to see the predictions for the water flow.</p>
-      <p>Please choose which river forecast to view.</p>
+      <p></p>
+      <p>Please choose which river forecast to view. It may take a few seconds to load.</p>
+      <h1></h1>
       <label><input type="checkbox" id="River1" onchange="toggleCheckbox(this, 'River1Function')" > Rio Chama below El Vado Dam</label>
       <label><input type="checkbox" id="River2" onchange="toggleCheckbox(this, 'River2Function')"> Rio Chama below Abiquiu</label>
       <label><input type="checkbox" id="River3" onchange="toggleCheckbox(this, 'River3Function')"> Rio Chama near Chamita</label>
-      <label><input type="checkbox" id="River4" onchange="toggleCheckbox(this, 'River4Function')"> Rio Grande below Taos</label>
+      <p><label><input type="checkbox" id="River4" onchange="toggleCheckbox(this, 'River4Function')"> Rio Grande below Taos</label>
       <label><input type="checkbox" id="River5" onchange="toggleCheckbox(this, 'River5Function')"> Rio Grande near Cerro</label>
-      <p></p>
+      </p>
+      <h1></h1>
       <select id="Series_Type"> 
         <option value="short_range">Short Range</option>
         <option value="medium_range">Medium Range</option> 
         <option value="long_range">Long Range</option> 
-        <option value="medium_range_blend:">Medium Range Blend</option> 
+        <option value="medium_range_blend">Medium Range Blend</option> 
       </select> 
-     
     </div>
 
     <div id="map">
       <script src="A9_WWRaft.js"></script>
 
     </div>
-    Make forecast go away when you click the next checkmark
+  
     <div id="forecast-container">
       <table id="timeseries-datatable">
           <thead> <!-- this is where the table will be displayed -->
@@ -108,80 +62,104 @@ https://hydroshare.org/resource/d6eeb177c15544fc9976b15278368adc/
 
     <div id="text-container">
      
-      <p>Use this forecast to find determine the classification of the water conditions so you can be safe while having a good time. </p>
+      <p>Use this forecast to determine the water conditions so you can plan accordingly</p>
 
+      <table>
+        <tr>
+          <th>Flow Rating</th>
+          <th>Flow Volume (cfs)</th>
+          <th>Class</th>
+        </tr>
+        <tr>
+          <td>Low water</td>
+          <td>Less than 300</td>
+          <td>Class 1</td>
+        </tr>
+        <tr>
+          <td>Medium Water</td>
+          <td>300-600</td>
+          <td>Class 1, Class 2</td>
+        </tr>
+        <tr>
+          <td>Moderate Water</td>
+          <td>600-1200</td>
+          <td>Class 3, Class 4</td>
+        </tr>
+        <tr>
+          <td>High Water</td>
+          <td>1200-2500</td>
+          <td>Class 4, Class 5,Class 6</td>
+        </tr>  
+        <tr>
+          <td>Super High Water</td>
+          <td>4000-10,000</td>
+          <td>Dangerous, not suitable for rafting</td>
+        </tr>  
+      </table>
       <table>
         <tr>
           <th>Category</th>
-          <th>Flow Range</th>
+          
           <th>Skill Level</th>
         </tr>
         <tr>
           <td>Class 1</td>
-          <td>1000-#####</td>
-          <td>Beginner</td>
-        </tr>
-        <tr>
-          <td>Category 2</td>
-          <td>1000-#####</td>
-          <td>Beginner</td>
-        </tr>
-        <tr>
-          <td>Category 3</td>
-          <td>1000-#####</td>
-          <td>Beginner</td>
-        </tr>
-        <tr>
-          <td>Category 4</td>
-          <td>1000-#####</td>
-          <td>Beginner</td>
-        </tr>
-        <tr>
-          <td>Category 4</td>
-          <td>1000-#####</td>
-          <td>DANGEROUS FOR ALL.</td>
-        </tr>
-
-      </table>
-
-      <table>
-        <tr>
-          <th>Skill Level</th>
-          <th>Description</th>
-        </tr>
-        <tr>
-          <td>Class 1</td>
-          <td>A calm float</td>
+         
+          <td>Moving Water with small waves and few obstructions.</td>
         </tr>
         <tr>
           <td>Class 2</td>
-          <td> </td>
+         
+          <td>Easy rapids with small waves. Some maneuvering required.</td>
         </tr>
         <tr>
-          <td>Advanced</td>
-          <td>Description</td>
+          <td>Class 3</td>
+          
+          <td>Rapids with high and irregular waves. Some narrow passages that require precise maneuvering.</td>
         </tr>
         <tr>
-          <td>Expert</td>
-          <td>Description</td>
-        </tr>  
+          <td>Class 4</td>
+       
+          <td>Difficult and long rapids. Frequent required maneuvers. Scouring is often necessary.</td>
+        </tr>
+        <tr>
+          <td>Class 5</td>
+          <td>Extremely difficult,long, violent rapids with highly congested routes. Scouting Required. Class 5 is considered the upper limit for commericial rafts.</td>
+        </tr>
+        <tr>
+          <td>Class 6</td>
+          <td>Considered extreme and for experts only. High risk of life.</td>
+        </tr>
+
       </table>
+
     </div>
+
     <div id="text-container"> <!--This section will give link to forward them to other websites to see how website works and how forecast data is collected.-->
       <h2>Where does the forecast data come from?</h2>
+      <p></p>
       <p>The data is gathered from the National Water Model (NWM). As you choose the river you want to see, the website pulls the specific river forecast data from the model and displays it here. </p>
-      <p>See <a href="/A8_USNWM_Plot/USNWM_Map.html" target="_blank">how it works</a> for more information on how the data is fetched from the NWM api.</p>
+      <h1></h1>
+      <p>See <a href="https://istout.github.io/CE_514/A8_USNWM_Plot/USNWM_Map.html" target="_blank">this page</a> to look at more forecasts.</p>
+      <h1></h1>
       <h2> How does the page work?</h2>
-      <p><a href="howitworks.html" target="_blank"><img src="questionmark.jpg" alt="ICON" style="width:32px; height:32px;"></p>
-    </div>
-    
+      <p><a href="howitworks.html" target="_blank"><img src="questionmark.jpg" alt="ICON" style="width:32px; height:32px;"></a></p>
+      
+      <h1></h1>
+      <h2>More about the creator of this application</h2>
+      <p><a href="https://istout.github.io/"target="_blank">About Me</a> </p>
+      </div>
 
 </body>
 
-
 <footer>
-  <p>Learn more about the creator of this website. <a href="index.html"target="_blank">About Me (FIX THIS LINK) </a></p>
-  <p>A lot of the white water rafting information gathered from <a href='https://www.losriosriverrunners.com/' target="_blank">Los Rios River Runners</a></p>
+  <p>White Water Rafting information gathered from <a href='https://www.losriosriverrunners.com/' target="_blank">Los Rios River Runners</a></p>
+  <h1></h1>
+  <p style="font-size: 15px";>© 2025 Ivy Stout
+
+  
+<!-- <p><a href="https://api.water.noaa.gov/nwps/v1/docs/#/Reaches/Reaches_GetStreamflow" target="_blank">Swagger test</a></p> -->
+
 </footer>
 
 

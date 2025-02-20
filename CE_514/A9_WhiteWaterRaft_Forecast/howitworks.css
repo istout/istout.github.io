@@ -17,7 +17,7 @@ h1, h2 {
 }
 
 main {
-    max-width: 900px;
+    max-width: 80%;
     margin: 0 auto;
     padding: 20px;
     background-color: white;
@@ -25,11 +25,7 @@ main {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#map {
-    width:80%;
-    height:600px;
-    
-}
+
 
 code{
     display:block;
@@ -38,3 +34,4 @@ code{
     color: white;
 
 }
+

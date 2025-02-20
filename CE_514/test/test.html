@@ -6,77 +6,28 @@
     <title>White Water Rafting</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="A9_WWRaft.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js library, this is what will load in the chart. <canvas> tag uses it-->   
+   
+      <link rel="stylesheet" href="test.css">
 </head>
 
 <header>
   <h1>White Water Rafting</h1>
   <p>See the river forecast for the Rio Grande River and _____________ River in New Mexico</p>
-
 </header>
+
 <body>
-  <h1>Include link to About ME</h1>
-  Have picure of someone white water rafting in background. 
-Refer to mock up
-
-
-d6eeb177c15544fc9976b15278368adc
-  
-
-  - simple instructions. 
-  - 
-
-  Rio Grande at Embudo: 17864756
-
-  Rio Chama near Chamita: 17848906
-
-  Middle box (kinda)
-  Rio Grande near Cerro : 17863292
-
-  Rio Chama above Abiquiu: 17846526
-
-
-
-<p> <a href="https://api.water.noaa.gov/nwps/v1/docs/#/Reaches/Reaches_GetStreamflow" target="_blank">Swagger test</a></p>
-
-
-
-
-
-
-    <h1>
-Hydroshare: 
-https://hydroshare.org/resource/d6eeb177c15544fc9976b15278368adc/
-
-    </h1>
-    <p> Chattoga River at Summerville 
-        Reach ID: 15822875
-
-        Forecast
-
-        https://gagiohome-gagio.hub.arcgis.com/#data
-        Link to Georgia's geospatial data
-
-
-
-        RIO grande near San Acacia (can't find future data)
-        17811742
-
-        The long range does work on the API site with flows into the future. Pursue this one. 
-
-        <a href='https://api.water.noaa.gov/nwps/v1/docs/#/Reaches/Reaches_GetStreamflow' target="_blank">ReachID Swagger Test</a>
-    </p>
-    
-
+  <h1>Have picure of someone white water rafting in background.</h1>
+    <h1>   </h1>
+   
     <div id="selection">
       <p> Enjoy the thrill of white water rafting in New Mexico. Use this forecast to see the predictions for the water flow.</p>
-      <p>Please choose which river forecast to view.</p>
-      <label><input type="checkbox" id="RioGrande" onchange="toggleCheckbox(this, 'RioGrandeFunction')" checked> Rio Grande</label>
-      <label><input type="checkbox" id="River2" onchange="toggleCheckbox(this, 'River2Function')"> River 2</label>
-      <label><input type="checkbox" id="River3" onchange="toggleCheckbox(this, 'River3Function')"> River 3</label>
-      <label><input type="checkbox" id="River4" onchange="toggleCheckbox(this, 'River4Function')"> River 4</label>
-      <label><input type="checkbox" id="River5" onchange="toggleCheckbox(this, 'River5Function')"> River 5</label>
+      <p>Please choose which river forecast to view. After clicking on the river, it may take a few seconds to load the forecast</p>
+      <label><input type="checkbox" id="River1" onchange="toggleCheckbox(this, 'River1Function')" > Rio Chama below El Vado Dam</label>
+      <label><input type="checkbox" id="River2" onchange="toggleCheckbox(this, 'River2Function')"> Rio Chama below Abiquiu</label>
+      <label><input type="checkbox" id="River3" onchange="toggleCheckbox(this, 'River3Function')"> Rio Chama near Chamita</label>
+      <label><input type="checkbox" id="River4" onchange="toggleCheckbox(this, 'River4Function')"> Rio Grande below Taos</label>
+      <label><input type="checkbox" id="River5" onchange="toggleCheckbox(this, 'River5Function')"> Rio Grande near Cerro</label>
       <p></p>
       <select id="Series_Type"> 
         <option value="short_range">Short Range</option>
@@ -84,14 +35,26 @@ https://hydroshare.org/resource/d6eeb177c15544fc9976b15278368adc/
         <option value="long_range">Long Range</option> 
         <option value="medium_range_blend:">Medium Range Blend</option> 
       </select> 
-      <button onclick="Show_Forecast()">Show Forecast</button> 
     </div>
 
     <div id="map">
-      <script src="A9_WWRaft.js"></script>
+      <script src="test.js"></script>
 
     </div>
-
+  
+    <div id="forecast-container">
+      <table id="timeseries-datatable">
+          <thead> <!-- this is where the table will be displayed -->
+          <tr>
+              <th>Timestamp</th>
+              <th>Flow value (cfs)</th>
+          </tr>
+      </thead>
+      <tbody>
+      </tbody>
+      </table>
+      <canvas id="streamflowChart"></canvas>    <!-- display the chart -->
+  </div>
 
     <div id="text-container">
      
@@ -105,18 +68,18 @@ https://hydroshare.org/resource/d6eeb177c15544fc9976b15278368adc/
         </tr>
         <tr>
           <td>Class 1</td>
-          <td>1000-#####</td>
-          <td>Beginner</td>
+          <td></td>
+          <td>Moving Water with small waves and few obstructions.</td>
         </tr>
         <tr>
-          <td>Category 2</td>
+          <td>Class 2</td>
           <td>1000-#####</td>
-          <td>Beginner</td>
+          <td>Easy rapids with small waves. Some maneuvering required.</td>
         </tr>
         <tr>
-          <td>Category 3</td>
+          <td>Class 3</td>
           <td>1000-#####</td>
-          <td>Beginner</td>
+          <td>Rapids with high and irregular waves. Some narrow passages that require precise maneuvering.</td>
         </tr>
         <tr>
           <td>Category 4</td>
@@ -162,13 +125,148 @@ https://hydroshare.org/resource/d6eeb177c15544fc9976b15278368adc/
       <p><a href="howitworks.html" target="_blank"><img src="questionmark.jpg" alt="ICON" style="width:32px; height:32px;"></p>
     </div>
     
-
+ 
 </body>
-
 
 <footer>
   <p>Learn more about the creator of this website. <a href="index.html"target="_blank">About Me (FIX THIS LINK) </a></p>
   <p>A lot of the white water rafting information gathered from <a href='https://www.losriosriverrunners.com/' target="_blank">Los Rios River Runners</a></p>
+  
+<p> <a href="https://api.water.noaa.gov/nwps/v1/docs/#/Reaches/Reaches_GetStreamflow" target="_blank">Swagger test</a></p>
+
+
+<section>
+  <h2>JavaScript Functionality (script.js)</h2>
+  <p>The JavaScript file (`script.js`) contains the core logic of the application. The `getForecast()` function is the heart of this process:</p>
+
+  <h3>1. Getting the Reach ID</h3>
+  <p>The function first retrieves the Reach ID entered by the user from the input field:</p>
+  <pre class="code-snippet"><code>const reachId = document.getElementById('reachIdInput').value;</code></pre>
+
+  <h3>2. Validating Input</h3>
+  <p>It then checks if the user has entered a Reach ID:</p>
+  <pre class="code-snippet"><code>if (!reachId) {
+alert("Please enter a Reach ID.");
+return;
+}</code></pre>
+
+  <h3>3. Making the API Call</h3>
+  <p>The application makes a request to the NOAA NWPS API using the Fetch API:</p>
+  <pre class="code-snippet"><code>const apiUrl = `https://api.water.noaa.gov/nwps/v1/reaches/${reachId}/streamflow?series=short_range`;
+const response = await fetch(apiUrl);</code></pre>
+
+  <h3>4. Handling the API Response</h3>
+  <p>The code checks for errors in the API response:</p>
+  <pre class="code-snippet"><code>if (!response.ok) {
+throw new Error(`HTTP error status: ${response.status} - ${response.statusText}`);
+}</code></pre>
+<p>And parses the JSON response:</p>
+<pre class="code-snippet"><code>const json_data = await response.json();</code></pre>
+<p>It then handles cases where there may not be any data:</p>
+<pre class="code-snippet"><code>if (!json_data.shortRange ||!json_data.shortRange.series ||!json_data.shortRange.series.data || json_data.shortRange.series.data.length === 0) {
+throw new Error("No forecast data available for this Reach ID.");
+}</code></pre>
+
+  <h3>5. Extracting Data</h3>
+  <p>The code extracts the timestamps and flow values from the JSON data:</p>
+  <pre class="code-snippet"><code>const streamflowData = json_data.shortRange.series.data;
+const timestamps = streamflowData.map(item => item.validTime);
+const flowValues = streamflowData.map(item => item.flow);</code></pre>
+
+  <h3>6. Updating the Table</h3>
+  <p>The table is updated with the retrieved data:</p>
+  <pre class="code-snippet"><code>const table = document.getElementById('timeseries-datatable').getElementsByTagName('tbody');
+table.innerHTML = ""; // Clear previous data
+
+for (let i = 0; i &lt; streamflowData.length; i++) {
+//... (add rows and cells to the table)
+}</code></pre>
+
+  <h3>7. Creating/Updating the Chart</h3>
+  <p>Chart.js is used to create or update the chart:</p>
+  <pre class="code-snippet"><code>const ctx = document.getElementById('streamflowChart').getContext('2d');
+let chart = Chart.getChart('streamflowChart'); // Check if chart exists
+
+if (chart) {
+chart.destroy(); // Destroy existing chart
+}
+
+chart = new Chart(ctx, { // Create new chart
+type: 'line',
+//... (chart configuration)
+});</code></pre>
+
+  <h3>8. Error Handling</h3>
+  <p>A `try...catch` block handles potential errors during the API call or data processing.  Error messages are displayed to the user using `alert()`, and the table and chart are cleared.</p>
+</section>
+
+
+
+
+
+
+
+///////////////////////////////////////////////////
+
+
+<ul>
+<li>Headings and paragraphs to provide information about the NWM.</li>
+<li>Links to relevant NWM resources.</li>
+<li>An input field (`#reachIdInput`) for the user to enter a Reach ID.</li>
+<li>A button to trigger the forecast retrieval.</li>
+<li>A container (`#forecast-container`) to hold the forecast table and chart (initially hidden).</li>
+<li>A table (`#timeseries-datatable`) to display the forecast data.</li>
+<li>A canvas element (`#streamflowChart`) for the chart.</li>
+<li>A "How It Works" section.</li>
+<li>Links to the JavaScript (`script.js`) and CSS (`style.css`) files.</li>
+</ul>
+<p>The forecast container, table, and chart are initially hidden using CSS and are shown only after the user clicks the "Get Forecast" button and data is successfully retrieved.</p>
+</section>
+
+<section>
+<h2>HTML Structure (index.html)</h2>
+<p>The HTML file (`index.html`) sets up the basic structure of the web page. It includes:</p>
+<ul>
+<li>Headings and paragraphs to provide information about the NWM.</li>
+<li>Links to relevant NWM resources.</li>
+<li>An input field (`#reachIdInput`) for the user to enter a Reach ID.</li>
+<li>A button to trigger the forecast retrieval.</li>
+<li>A container (`#forecast-container`) to hold the forecast table and chart (initially hidden).</li>
+<li>A table (`#timeseries-datatable`) to display the forecast data.</li>
+<li>A canvas element (`#streamflowChart`) for the chart.</li>
+<li>A "How It Works" section.</li>
+<li>Links to the JavaScript (`script.js`) and CSS (`style.css`) files.</li>
+</ul>
+<p>The forecast container, table, and chart are initially hidden using CSS and are shown only after the user clicks the "Get Forecast" button and data is successfully retrieved.</p>
+</section>
+
+
+
+
+<section>
+<h2>Enhancements and Further Exploration</h2>
+<p>Here are some ideas for improving and enhancing the NWM Forecast Viewer:</p>
+<ul>
+<li>**Data Visualization:** Explore different chart types in Chart.js or other charting libraries (see below) to visualize the data in different ways.</li>
+<li>**User Interface:** Improve the user interface with better layout, styling, and user interactions.</li>
+<li>**Data Filtering:** Add options to filter the forecast data by time range or other criteria.</li>
+<li>**Data Export:** Implement functionality to export the forecast data in various formats (e.g., CSV, JSON).</li>
+<li>**Map Integration:** Integrate a map to show the location of the reach and other relevant information.</li>
+<li>**Error Handling:** Implement more robust error handling and provide more specific error messages to the user.</li>
+<li>**Accessibility:** Improve the accessibility of the web application for users with disabilities.</li>
+</ul>
+</section>
+
+<section>
+<h2>Other Charting Libraries</h2>
+<p>Besides Chart.js, here are some other popular JavaScript charting libraries you could explore:</p>
+<ul>
+<li>D3.js: A powerful and highly customizable library for creating complex data visualizations.</li>
+<li>Plotly.js: A versatile library that supports a wide range of chart types and interactive features.</li>
+<li>ApexCharts: A modern charting library with a clean design and many built-in features.</li>
+<li>Google Charts: A free and easy-to-use library provided by Google.</li>
+</ul>
+</section>
 </footer>
 
 

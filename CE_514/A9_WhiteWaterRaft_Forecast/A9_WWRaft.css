@@ -1,10 +1,21 @@
+/* Resetting margin and padding for html, body and all elements */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Ensures padding/border are included in element's width/height */
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
 body {
     background-color: grey; 
     font-family: Arial, sans-serif;
-    margin: 0; /* Remove default margins */
-    padding: 0; /* Remove default padding */
+    margin: 0;
+    padding: 0; 
     text-align: center; /* Centers the text horizontally, This is in the parent element and applied to the whole body*/
-    background-image: "river.png";
+    background-image: url('river.png');
     background-size: cover; /*makes it so it cover entire background*/
     background-attachment: fixed; /*makes it so the image doesn't scroll as screen scrolls */
 }
@@ -20,21 +31,25 @@ h2 {
 }
 
 p {
-    
     display: block; /* Makes the outline only as long as the content */
+    font-size: 20px;
 }
 header {
+
     background-color: rgb(101, 101, 101);
-    font-size: 20px;
+    font-size: 40px;
     font-weight: bold;
-    padding-bottom: 10px;
+    padding-bottom: 0;
+    margin:0;
     width:100%;
 }
+
+
 
 #text-container {
     border: 2px solid black;
     background-color: white;
-    padding: 10px;
+    padding-top: 100px;
     margin: 10px auto;
     width: 80%
 }
@@ -45,8 +60,19 @@ header {
     background-color: white;
     padding: 10px;
     margin: 10px auto;
-    width: 80%
+    width: 80%;
+    font-size: 20px;
 }
+
+#Series_Type {
+    font-size:20px ;
+}
+#selection label, #selection option {
+    font-size: 20px;
+    font-weight: bold;
+
+}
+
 
 #map {
     height: 600px;  /* Set the height of the map */
@@ -64,6 +90,7 @@ header {
     overflow:auto; 
     max-height: 700px;;
     width:80%;
+    color: black;
 }
 
 #timeseries-datatable {
@@ -73,18 +100,63 @@ header {
     border: 1px solid #dee2e6;
   }
   
-  #timeseries-datatable th, #timeseries-datatable td {
-    border: 1px solid #dee2e6;
-    padding: 12px; /* Increased padding */
-    text-align: left;
-    background-color: white; /* Ensures table cells have a white background */
-  }
-  
-  #timeseries-datatable th {
-    background-color: #f2f2f2; /* Light gray background for table header */
-    font-weight: bold;
-  }
   
   #streamflowChart {
-    margin-top: 20px;
+    margin-top: 20px, auto;
+
+
   }
+
+
+  table {
+    width: 100%; /* Make the table take up the full width of its container */
+    border-collapse: collapse; /* Remove space between borders */
+    margin: 20px 0; /* Adds some space above and below the table */
+}
+
+th, td {
+    border: 1px solid #dee2e6; /* Add a light gray border to the cells */
+    padding: 12px; /* Add padding for better readability */
+    text-align: left; /* Align text to the left */
+    background-color: #f9f9f9; /* Set a light gray background color for the cells */
+}
+
+th {
+    background-color: blue; /* Dark green background for header */
+    color: white; /* White text for header */
+    font-weight: bold; /* Make header text bold */
+}
+
+td {
+    background-color: #ffffff; /* White background for data cells */
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* Alternate row background color for better readability */
+}
+
+tr:hover {
+    background-color: #ddd; /* Add a hover effect to highlight rows */
+}
+
+table caption {
+    font-size: 1.5em; /* Make table caption text larger */
+    margin-bottom: 10px; /* Add space below the caption */
+}
+
+footer {
+    background-color: rgb(101, 101, 101); /* Dark gray background */
+    color: white; /* White text color */
+    text-align: center; /* Center the text horizontally */
+    padding: 10px 0; /* Padding for the top and bottom of the footer */
+    
+    bottom: 0; /* Align the footer to the bottom of the page */
+    left: 0; /* Align the footer to the left edge */
+    width: 100%; 
+    font-size: 14px; /* Font size */
+  }
+  
+  footer p {
+    margin: 0; /* Remove any default margin from the <p> element */
+  }
+  

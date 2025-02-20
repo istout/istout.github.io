@@ -70,7 +70,7 @@ function toggleCheckbox(checkbox, riverName) {
     });
 
     const riverLayer = layers[riverName]; // Get the corresponding river layer based on the river name
-
+    clearForecastData(); //clear the forecast data before showing new one/////////////////
  const viewSettings = {
         'River1': { center: [36.5, -106.7], zoom: 9.5},  // Example for Rio Chama below El Vado Dam
         'River2': { center: [36.2, -106.4], zoom: 9.5 },  // Example for Rio Chama below Abiquiu
@@ -125,6 +125,8 @@ function toggleCheckbox(checkbox, riverName) {
 
 // Listen for changes in the series type dropdown
 document.getElementById('Series_Type').addEventListener('change', function() {
+  clearForecastData(); // Clear the forecast data before showing new one ////////////////////////////
+
   const checkedRiver = document.querySelector('input[type="checkbox"]:checked'); // Check if any river checkbox is selected
   if (checkedRiver) {
       const riverName = checkedRiver.id; // Get the river name from the selected checkbox
@@ -147,7 +149,7 @@ async function showForecast(riverName) {
     if (seriesType === 'short_range') {
       seriesTypeshort = 'shortRange';
       seriesTypeDisplay="Short Range";
-    } else if (seriesType === 'medium_range') { ///////fix this here!!!
+    } else if (seriesType === 'medium_range') { 
       seriesTypeshort = 'mediumRange';
       seriesTypeDisplay="Medium Range";
     } else if (seriesType === 'long_range') {
@@ -184,12 +186,32 @@ async function showForecast(riverName) {
     console.log("json_data", json_data); ///////////delete
 
     // Validate that forecast data is available
-    if (!json_data[seriesTypeshort] || !json_data[seriesTypeshort].series || !json_data[seriesTypeshort].series.data || json_data[seriesTypeshort].series.data.length === 0) {
-      throw new Error("No forecast data available for this Reach ID.");
-    }
+    // if (!json_data[seriesTypeshort] || !json_data[seriesTypeshort].series || !json_data[seriesTypeshort].series.data || json_data[seriesTypeshort].series.data.length === 0) {
+    //   throw new Error("No forecast data available for this Reach ID.");
+    // }
 
     // Extract the streamflow data
-    const streamflowData = json_data[seriesTypeshort].series.data;
+   
+// const streamflowData = json_data[seriesTypeshort].series.data;
+  // //This is hardcoded. If the medium range ever used member 5 it wouldn't work
+
+  let streamflowData = "";
+  if (seriesType === 'short_range') {
+    streamflowData = json_data[seriesTypeshort].series.data;
+  } else if (seriesType === 'medium_range') {
+    streamflowData = json_data.mediumRange.member6.data;
+  }else if (seriesType === 'long_range') {
+    streamflowData = json_data.longRange.member4.data;
+  }else if (seriesType === 'medium_range_blend') {
+  //  streamflowData = json_data.mediumRangeBlend.series.data;
+    streamflowData = json_data[seriesTypeshort].series.data;
+  }
+
+   // Check if the streamflow data is empty
+   if (!streamflowData || streamflowData.length === 0) {
+    throw new Error('No forecast data available for selected series type. Please try another range.');
+  }
+    
     const timestamps = streamflowData.map(item => item.validTime);
     const flowValues = streamflowData.map(item => item.flow);
 
@@ -281,4 +303,28 @@ document.getElementById('River4').addEventListener('change', function() {
 document.getElementById('River5').addEventListener('change', function() {
   toggleCheckbox(this, 'River5');
 });
+
+function clearForecastData() {
+  // Clear forecast container and its content
+  const forecastContainer = document.getElementById('forecast-container');
+  forecastContainer.style.display = 'none'; // Hide forecast container
+
+  // Clear forecast table
+  const table = document.getElementById('timeseries-datatable').getElementsByTagName('tbody')[0];
+  table.innerHTML = "";
+
+  // Clear the chart canvas
+  const chartCanvas = document.getElementById('streamflowChart');
+  chartCanvas.innerHTML = ""; // Clear chart
+
+    const chart = Chart.getChart('streamflowChart');
+  if (chart) {
+    chart.destroy(); // Destroy the existing chart
+  }
+  // Clear forecast details
+  const forecastElement = document.getElementById('forecastDetails');
+  if (forecastElement) {
+      forecastElement.innerHTML = ''; // Clear forecast details
+  }
+}
 

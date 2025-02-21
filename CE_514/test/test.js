@@ -6,8 +6,6 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-
-
 // Define your WMS layers (one for each river)
 const layers = {
     'River1': L.tileLayer.wms('https://geoserver.hydroshare.org/geoserver/HS-d6eeb177c15544fc9976b15278368adc/wms', { 
@@ -63,13 +61,13 @@ function toggleCheckbox(checkbox, riverName) {
     // Loop through all checkboxes and uncheck them except the one that triggered the event
     checkboxes.forEach(function(item) {
         if (item !== checkbox) {
-            item.checked = false;  // Uncheck the other checkboxes
+            item.checked = false;  
         }
     });
 
-    const riverLayer = layers[riverName]; // Get the corresponding river layer based on the river name
+    const riverLayer = layers[riverName]; 
+    clearForecastData(); //Clear forecast when new river is selected
 
-    // If the checkbox is checked, add the river layer to the map
     if (checkbox.checked) {
         // If there's already a layer displayed, remove it
         if (currentLayer) {
@@ -80,9 +78,7 @@ function toggleCheckbox(checkbox, riverName) {
         currentLayer = riverLayer;
         riverLayer.addTo(map);
 
-        // Optionally, show forecast or river-specific data
         showForecast(riverName);
-
 
      //   console.log(`${riverName} checkbox is checked`);
     } else {
@@ -91,27 +87,26 @@ function toggleCheckbox(checkbox, riverName) {
             map.removeLayer(riverLayer);
             currentLayer = null;
         }
-
         // Clear the chart and table if no river is selected
         const chartCanvas = document.getElementById('streamflowChart');
         chartCanvas.innerHTML = ""; // Clear the chart canvas
-
 
         // Hide the forecast container if no river is selected
         const forecastcontainer = document.getElementById('forecast-container');
         forecastcontainer.style.display = 'none';
 
-        // Optionally, clear forecast data
         const forecastElement = document.getElementById('forecastDetails');
         if (forecastElement) {
             forecastElement.innerHTML = ''; // Clear forecast details
         }
-        //console.log(`${riverName} checkbox is unchecked`);
+    
     }
 }
 
 // Listen for changes in the series type dropdown
 document.getElementById('Series_Type').addEventListener('change', function() {
+  clearForecastData(); // Clear forecast data when the series type changes
+
   const checkedRiver = document.querySelector('input[type="checkbox"]:checked'); // Check if any river checkbox is selected
   if (checkedRiver) {
       const riverName = checkedRiver.id; // Get the river name from the selected checkbox
@@ -138,14 +133,12 @@ async function showForecast(riverName) {
       seriesTypeshort = 'mediumRange';
       seriesTypeDisplay="Medium Range";
     } else if (seriesType === 'long_range') {
-        seriesTypeshort = 'longRange';
+        seriesTypeshort = 'longRange:mean:';
         seriesTypeDisplay="Long Range";
      } else if (seriesType === "medium_range_blend"){
         seriesTypeshort = 'mediumRangeBlend';
         seriesTypeDisplay="Medium Range Blend";
       }
-
-      console.log("seriesType", seriesTypeshort);
 
        // Retrieve the reachId based on riverName
     const riverReachID = reachID[riverName];
@@ -158,7 +151,7 @@ async function showForecast(riverName) {
     // Make the API call to fetch the streamflow data
     const response = await fetch(apiUrl);
     
-    console.log("response", response);
+   console.log("response", response);
 
     // Check for successful response
     if (!response.ok) {
@@ -167,21 +160,32 @@ async function showForecast(riverName) {
 
     // Parse the response as JSON
     const json_data = await response.json();
+   console.log("json_data", json_data); 
 
-    console.log("json_data", json_data); ///////////delete
+  // const streamflowData = json_data[seriesTypeshort].series.data;
+  // //This is hardcoded. If the medium range ever used member 5 it wouldn't work
 
-    // Validate that forecast data is available
-    if (!json_data[seriesTypeshort] || !json_data[seriesTypeshort].series || !json_data[seriesTypeshort].series.data || json_data[seriesTypeshort].series.data.length === 0) {
-      throw new Error("No forecast data available for this Reach ID.");
+    let streamflowData = "";
+    if (seriesType === 'short_range') {
+      streamflowData = json_data[seriesTypeshort].series.data;
+    } else if (seriesType === 'medium_range') {
+      streamflowData = json_data.mediumRange.member6.data;
+    }else if (seriesType === 'long_range') {
+      streamflowData = json_data.longRange.member4.data;
+    }else if (seriesType === 'medium_range_blend') {
+    //  streamflowData = json_data.mediumRangeBlend.series.data;
+      streamflowData = json_data[seriesTypeshort].series.data;
     }
 
-    // Extract the streamflow data
-    const streamflowData = json_data[seriesTypeshort].series.data;
+     // Check if the streamflow data is empty
+     if (!streamflowData || streamflowData.length === 0) {
+      throw new Error('No forecast data available for selected series type.');
+    }
+    
     const timestamps = streamflowData.map(item => item.validTime);
     const flowValues = streamflowData.map(item => item.flow);
 
-    console.log("streamflowData", streamflowData); /////this is working!!
-
+    console.log("streamflowData", streamflowData); 
 
     // Update the timeseries table with the data
     const table = document.getElementById('timeseries-datatable').getElementsByTagName('tbody')[0];
@@ -203,6 +207,7 @@ async function showForecast(riverName) {
       chart.destroy(); // Destroy the existing chart if present
     }
 
+
     // Create a new chart
     chart = new Chart(ctx, {
       type: 'line',
@@ -218,6 +223,7 @@ async function showForecast(riverName) {
       },
       options: {
         responsive: true,
+      
         scales: {
           x: {
             display: true,
@@ -269,3 +275,26 @@ document.getElementById('River5').addEventListener('change', function() {
   toggleCheckbox(this, 'River5');
 });
 
+function clearForecastData() {
+  // Clear forecast container and its content
+  const forecastContainer = document.getElementById('forecast-container');
+  forecastContainer.style.display = 'none'; // Hide forecast container
+
+  // Clear forecast table
+  const table = document.getElementById('timeseries-datatable').getElementsByTagName('tbody')[0];
+  table.innerHTML = "";
+
+  // Clear the chart canvas
+  const chartCanvas = document.getElementById('streamflowChart');
+  chartCanvas.innerHTML = ""; // Clear chart
+
+    const chart = Chart.getChart('streamflowChart');
+  if (chart) {
+    chart.destroy(); // Destroy the existing chart
+  }
+  // Clear forecast details
+  const forecastElement = document.getElementById('forecastDetails');
+  if (forecastElement) {
+      forecastElement.innerHTML = ''; // Clear forecast details
+  }
+}

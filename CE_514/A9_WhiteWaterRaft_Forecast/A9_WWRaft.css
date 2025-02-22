@@ -51,9 +51,15 @@ header {
     background-color: white;
     padding-top: 10px;
     margin: 10px auto;
-    width: 80%
+    width: 80%;
+    font-size:20px;
 }
 
+#infoTable{
+    width: 80%;
+    margin: 10px auto;
+    font-size:20px;
+}
 
 #selection {
     border: 2px solid black;
@@ -94,54 +100,37 @@ header {
 }
 
 #timeseries-datatable {
-    width: 100%;
+    width: 80%;
+    margin: 10px auto;
     border-collapse: collapse;
-    margin-top: 10px;
     border: 1px solid #dee2e6;
   }
   
   
   #streamflowChart {
     margin-top: 20px, auto;
-
-
+    width:100%;
+    margin:auto;
   }
 
 
   table {
-    width: 100%; /* Make the table take up the full width of its container */
-    border-collapse: collapse; /* Remove space between borders */
+    width: 100%;
+    border-collapse: collapse; 
     margin: 20px 0; /* Adds some space above and below the table */
 }
 
 th, td {
-    border: 1px solid #dee2e6; /* Add a light gray border to the cells */
-    padding: 12px; /* Add padding for better readability */
-    text-align: left; /* Align text to the left */
-    background-color: #f9f9f9; /* Set a light gray background color for the cells */
+    border: 1px solid #dee2e6; 
+    padding: 12px; 
+    text-align: center; 
+    background-color: #f9f9f9; 
 }
 
 th {
     background-color: blue; /* Dark green background for header */
     color: white; /* White text for header */
     font-weight: bold; /* Make header text bold */
-}
-
-td {
-    background-color: #ffffff; /* White background for data cells */
-}
-
-/* tr:nth-child(even) {
-    background-color: #f2f2f2; /* Alternate row background color for better readability */
-/* }
-
-tr:hover {
-    background-color: #ddd; /* Add a hover effect to highlight rows */
-/* } */ */ */
-
-table caption {
-    font-size: 1.5em; /* Make table caption text larger */
-    margin-bottom: 10px; /* Add space below the caption */
 }
 
 footer {

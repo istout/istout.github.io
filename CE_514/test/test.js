@@ -50,6 +50,78 @@ const reachID ={
     'River4': '17864594', //Rio Grande below Taos
     'River5': '17863292' //Rio Grande near Cerro
 }
+const viewSettings = {
+  'River1': { center: [36.5, -106.7], zoom: 10},  // Example for Rio Chama below El Vado Dam
+  'River2': { center: [36.2, -106.4], zoom: 10 },  // Example for Rio Chama below Abiquiu
+  'River3': { center: [36.0, -106.1], zoom: 10 }, // Example for Rio Chama near Chamita
+  'River4': { center: [36.25, -105.8], zoom: 10 },  // Example for Rio Grande below Taos
+  'River5': { center: [36.7, -105.7], zoom: 10 }  // Example for Rio Grande near Cerro
+}
+  
+
+const floodreturnperiods = { 
+  //values give flow for each return period in cfs
+//return_periods: [return_period_2,return_period_5,return_period_10,return_period_25,return_period_50,return_period_100
+
+'River1': {
+  feature_id: 17844046,
+  floodvalues:{
+    '2-year flood': 50.82,
+    '5-year flood': 82.98,
+    '10-year flood': 104.28,
+    '25-year flood': 131.18,
+    '50-year flood': 151.14,
+    '100-year flood': 170.95
+  },
+},
+'River2': {
+  feature_id: 17846986,
+  floodvalues:{
+    '2-year flood': 57.83,
+    '5-year flood': 93.27,
+    '10-year flood': 116.74,
+    '25-year flood': 146.39,
+    '50-year flood': 168.38,
+    '100-year flood': 190.22
+  },
+},
+'River3': {
+  feature_id: 17848906,
+  floodvalues:{
+    '2-year flood': 69.3,
+    '5-year flood': 113.35,
+    '10-year flood': 142.52,
+    '25-year flood': 179.38,
+    '50-year flood': 206.72,
+    '100-year flood': 233.86
+  },
+},
+'River4': {
+  feature_id: 17864594,
+  floodvalues:{
+    '2-year flood': 347.51,
+    '5-year flood': 601.2,
+    '10-year flood': 769.17,
+    '25-year flood': 981.39,
+    '50-year flood': 1138.83,
+    '100-year flood': 1295.11
+  }
+},
+'River5': {
+  feature_id: 17863292,
+  floodvalues:{
+    '2-year flood': 329.57,
+    '5-year flood': 575.15,
+    '10-year flood': 737.74,
+    '25-year flood': 943.18,
+    '50-year flood': 1095.58,
+    '100-year flood': 1246.86
+  }
+ 
+}
+};
+////Could combine reach id, view settings, and flood return periods into one object and then call it in the functions. Thats a way to clean up the code. 
+
 
 // Variable to track the current layer displayed on the map
 let currentLayer = null;
@@ -58,16 +130,18 @@ let currentLayer = null;
 function toggleCheckbox(checkbox, riverName) {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
-    // Loop through all checkboxes and uncheck them except the one that triggered the event
+    //allows only one checkbox to be selected at a time
     checkboxes.forEach(function(item) {
         if (item !== checkbox) {
             item.checked = false;  
         }
     });
 
-    const riverLayer = layers[riverName]; 
-    clearForecastData(); //Clear forecast when new river is selected
+    const riverLayer = layers[riverName]; // Get the corresponding river layer based on the river name
 
+    clearForecastData(); //clear the forecast data before showing new one
+
+    // If the checkbox is checked, add the river layer to the map
     if (checkbox.checked) {
         // If there's already a layer displayed, remove it
         if (currentLayer) {
@@ -77,24 +151,31 @@ function toggleCheckbox(checkbox, riverName) {
         // Add the selected river layer to the map
         currentLayer = riverLayer;
         riverLayer.addTo(map);
+        
+        const { center, zoom } = viewSettings[riverName];
+        map.setView(center, zoom);
 
+        //  show forecast or river-specific data
         showForecast(riverName);
 
-     //   console.log(`${riverName} checkbox is checked`);
+    
     } else {
         // If the checkbox is unchecked, remove the corresponding river layer from the map
         if (currentLayer === riverLayer) {
             map.removeLayer(riverLayer);
             currentLayer = null;
         }
+
         // Clear the chart and table if no river is selected
         const chartCanvas = document.getElementById('streamflowChart');
         chartCanvas.innerHTML = ""; // Clear the chart canvas
+
 
         // Hide the forecast container if no river is selected
         const forecastcontainer = document.getElementById('forecast-container');
         forecastcontainer.style.display = 'none';
 
+        // clear forecast data
         const forecastElement = document.getElementById('forecastDetails');
         if (forecastElement) {
             forecastElement.innerHTML = ''; // Clear forecast details
@@ -105,7 +186,7 @@ function toggleCheckbox(checkbox, riverName) {
 
 // Listen for changes in the series type dropdown
 document.getElementById('Series_Type').addEventListener('change', function() {
-  clearForecastData(); // Clear forecast data when the series type changes
+  clearForecastData(); // Clear the forecast data before showing new one ////////////////////////////
 
   const checkedRiver = document.querySelector('input[type="checkbox"]:checked'); // Check if any river checkbox is selected
   if (checkedRiver) {
@@ -113,6 +194,7 @@ document.getElementById('Series_Type').addEventListener('change', function() {
       showForecast(riverName);  // Call showForecast with the riverName to update the forecast based on the new series type
   }
 });
+
 
 // Function to show forecast details for the selected river
 async function showForecast(riverName) {
@@ -129,16 +211,18 @@ async function showForecast(riverName) {
     if (seriesType === 'short_range') {
       seriesTypeshort = 'shortRange';
       seriesTypeDisplay="Short Range";
-    } else if (seriesType === 'medium_range') { ///////fix this here!!!
+    } else if (seriesType === 'medium_range') { 
       seriesTypeshort = 'mediumRange';
       seriesTypeDisplay="Medium Range";
     } else if (seriesType === 'long_range') {
-        seriesTypeshort = 'longRange:mean:';
+        seriesTypeshort = 'longRange';
         seriesTypeDisplay="Long Range";
      } else if (seriesType === "medium_range_blend"){
         seriesTypeshort = 'mediumRangeBlend';
         seriesTypeDisplay="Medium Range Blend";
       }
+
+      console.log("seriesType", seriesTypeshort);
 
        // Retrieve the reachId based on riverName
     const riverReachID = reachID[riverName];
@@ -151,7 +235,7 @@ async function showForecast(riverName) {
     // Make the API call to fetch the streamflow data
     const response = await fetch(apiUrl);
     
-   console.log("response", response);
+    console.log("response", response);
 
     // Check for successful response
     if (!response.ok) {
@@ -160,41 +244,58 @@ async function showForecast(riverName) {
 
     // Parse the response as JSON
     const json_data = await response.json();
-   console.log("json_data", json_data); 
 
-  // const streamflowData = json_data[seriesTypeshort].series.data;
-  // //This is hardcoded. If the medium range ever used member 5 it wouldn't work
+    console.log("json_data", json_data); 
 
-    let streamflowData = "";
-    if (seriesType === 'short_range') {
-      streamflowData = json_data[seriesTypeshort].series.data;
-    } else if (seriesType === 'medium_range') {
-      streamflowData = json_data.mediumRange.member6.data;
-    }else if (seriesType === 'long_range') {
-      streamflowData = json_data.longRange.member4.data;
-    }else if (seriesType === 'medium_range_blend') {
-    //  streamflowData = json_data.mediumRangeBlend.series.data;
-      streamflowData = json_data[seriesTypeshort].series.data;
-    }
+    // Extract the streamflow data
+   
+  // const streamflowData = json_data[seriesTypeshort].series.data; // not always in the series bucket
 
-     // Check if the streamflow data is empty
-     if (!streamflowData || streamflowData.length === 0) {
-      throw new Error('No forecast data available for selected series type.');
-    }
+  // //This is hardcoded. e.g. If the medium range ever used member 5 it wouldn't work. Later: could make it loop through the different categories and pull data from the ones that have data. 
+
+  let streamflowData = "";
+  if (seriesType === 'short_range') {
+    streamflowData = json_data[seriesTypeshort].series.data;
+    //streamflowData = json_data.shortRange.series.data;
+  } else if (seriesType === 'medium_range') {
+    streamflowData = json_data.mediumRange.member6.data;
+  }else if (seriesType === 'long_range') {
+    streamflowData = json_data.longRange.member4.data;
+  }else if (seriesType === 'medium_range_blend') {
+  //  streamflowData = json_data.mediumRangeBlend.series.data;
+    streamflowData = json_data[seriesTypeshort].series.data;
+  }
+
+   // Check if the streamflow data is empty
+   if (!streamflowData || streamflowData.length === 0) {
+    throw new Error('No forecast data available for selected series type. Please try another range. Or try again but let it load for a few seconds. Sometimes the API is unable to grab data when several calls to the API are made too quickly.');
+  }
     
-    const timestamps = streamflowData.map(item => item.validTime);
-    const flowValues = streamflowData.map(item => item.flow);
+    //const timestamps = streamflowData.map(item => item.validTime); NEXT ROW CONVERTS THE TIMESTAMP TO A READABLE STRING
+    const timestamps = streamflowData.map(item => {
+      const date = new Date(item.validTime); // Convert to Date object
+      return date.toLocaleString(); // Format it to a readable string (you can customize the format)
+  });
 
-    console.log("streamflowData", streamflowData); 
+    //const flowValues = streamflowData.map(item => item.flow); next row rounds the flow values to 2 decimal places
+    const flowValues = streamflowData.map(item => parseFloat(item.flow.toFixed(2))); 
 
+    console.log("streamflowData", streamflowData); /////this is working!!
+//////////////////////
+    const minFlow = Math.min(...flowValues);
+    const maxFlow = Math.max(...flowValues);
+
+    const floodLevel = floodreturnperiods[riverName]?.return_periods ||[]; //Get all flood levels for the selected river
+    
     // Update the timeseries table with the data
+
     const table = document.getElementById('timeseries-datatable').getElementsByTagName('tbody')[0];
     table.innerHTML = ""; // Clear previous table rows
 
     for (let i = 0; i < streamflowData.length; i++) {
       const row = table.insertRow();
       const timestampCell = row.insertCell();
-      const flowCell = row.insertCell();
+      const flowCell = row.insertCell();S
       timestampCell.textContent = timestamps[i];
       flowCell.textContent = flowValues[i];
     }
@@ -202,10 +303,13 @@ async function showForecast(riverName) {
     // Update or create the chart to display the streamflow data
     const ctx = document.getElementById('streamflowChart').getContext('2d');
     let chart = Chart.getChart('streamflowChart');
-
     if (chart) {
       chart.destroy(); // Destroy the existing chart if present
     }
+
+    //Get the flood levels for the selected river
+    const floodLevels = floodreturnperiods[riverName].return_periods;
+    console.log("floodLevels", floodLevels);
 
 
     // Create a new chart
@@ -214,32 +318,72 @@ async function showForecast(riverName) {
       data: {
         labels: timestamps,
         datasets: [{
-          label: `${seriesTypeDisplay} Streamflow Forecast`,
+          label: `${seriesTypeDisplay} Streamflow Forecast`,     
           data: flowValues,
           borderColor: 'blue',
-          borderWidth: 1,
-          fill: false
+          borderWidth: 3,
+          fill: true,
+          pointBorderColor: "#005f99",
+          pointRadius: 5,
+          pointHoverRadius: 8,
+          pointHoverBackgroundColor: 'red'
         }]
       },
       options: {
         responsive: true,
-      
+        plugins: {
+          legend: {
+              labels: { //main label
+                  color: "#333", 
+                  font: {
+                      size: 30,
+                      weight: "bold",
+                  },
+              },
+          },
+      },
         scales: {
           x: {
+            ticks:{color:'black',font:{size: 15}},
             display: true,
             title: {
               display: true,
-              text: 'Time'
+              text: 'Time',
+              color: 'black',
+              font:{weight: 'bold' , size: 20}
             }
           },
           y: {
+            ticks:{color:'black',font:{size: 15}},
             display: true,
             title: {
               display: true,
-              text: 'Streamflow (cfs)'
-            }
+              text: 'Streamflow (cfs)',
+              color: 'black',
+              font:{weight: 'bold' , size: 20}
+            },
+            suggestedMin: Math.min(minFlow, Math.min(...floodLevels)),  // Optional: provide room for the lowest flood level if needed
+            suggestedMax: Math.max(maxFlow, Math.max(...floodLevels))  // Optional: provide room for the highest flood level if needed
           }
-        }
+        },
+        annotation:floodLevels.length>0?{
+          annotations: floodLevels.filter(floodLevel => {
+            return floodLevel >= minFlow && floodLevel <= maxFlow;  // Only include flood levels within range
+          }).map(floodLevel => ({
+            type: 'line',
+            mode: 'horizontal',
+            scaleID: 'y',
+            value: floodLevel,
+            borderColor: 'red',
+            borderWidth: 2,
+            label: {
+              enabled: true,
+              content: `${floodLevel} cfs`,
+              position: 'start',
+              font: { size: 12 }
+            }
+          }))
+        }:{}
       }
     });
 
@@ -248,12 +392,7 @@ async function showForecast(riverName) {
     console.error('Error fetching or processing data:', error);
     alert("Error fetching forecast: " + error.message);
 
-    // Clear the table and chart if an error occurs
-    const table = document.getElementById('timeseries-datatable').getElementsByTagName('tbody')[0];
-    table.innerHTML = "";
-
-    const chartCanvas = document.getElementById('streamflowChart');
-    chartCanvas.innerHTML = ""; // Clear the chart canvas
+    clearForecastData(); // Clear the forecast data before showing new one
   }
 }
 
@@ -261,7 +400,6 @@ async function showForecast(riverName) {
 document.getElementById('River1').addEventListener('change', function() {
     toggleCheckbox(this, 'River1');
 });
-
 document.getElementById('River2').addEventListener('change', function() {
     toggleCheckbox(this, 'River2');
 });
@@ -286,15 +424,16 @@ function clearForecastData() {
 
   // Clear the chart canvas
   const chartCanvas = document.getElementById('streamflowChart');
-  chartCanvas.innerHTML = ""; // Clear chart
-
+  chartCanvas.innerHTML = ""; 
+  // Destroy the existing chart
     const chart = Chart.getChart('streamflowChart');
   if (chart) {
-    chart.destroy(); // Destroy the existing chart
+    chart.destroy(); 
   }
   // Clear forecast details
   const forecastElement = document.getElementById('forecastDetails');
   if (forecastElement) {
-      forecastElement.innerHTML = ''; // Clear forecast details
+      forecastElement.innerHTML = ''; 
   }
 }
+

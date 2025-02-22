@@ -51,11 +51,11 @@ const reachID ={
     'River5': '17863292' //Rio Grande near Cerro
 }
 const viewSettings = {
-  'River1': { center: [36.5, -106.7], zoom: 9.5},  // Example for Rio Chama below El Vado Dam
-  'River2': { center: [36.2, -106.4], zoom: 9.5 },  // Example for Rio Chama below Abiquiu
-  'River3': { center: [36.0, -106.1], zoom: 9.5 }, // Example for Rio Chama near Chamita
-  'River4': { center: [36.25, -105.8], zoom: 9.5 },  // Example for Rio Grande below Taos
-  'River5': { center: [36.7, -105.7], zoom: 9.5 }  // Example for Rio Grande near Cerro
+  'River1': { center: [36.5, -106.7], zoom: 10},  // Example for Rio Chama below El Vado Dam
+  'River2': { center: [36.2, -106.4], zoom: 10 },  // Example for Rio Chama below Abiquiu
+  'River3': { center: [36.0, -106.1], zoom: 10 }, // Example for Rio Chama near Chamita
+  'River4': { center: [36.25, -105.8], zoom: 10 },  // Example for Rio Grande below Taos
+  'River5': { center: [36.7, -105.7], zoom: 10 }  // Example for Rio Grande near Cerro
 }
   
 
@@ -122,8 +122,7 @@ function toggleCheckbox(checkbox, riverName) {
         //  show forecast or river-specific data
         showForecast(riverName);
 
-
-     //   console.log(`${riverName} checkbox is checked`);
+    
     } else {
         // If the checkbox is unchecked, remove the corresponding river layer from the map
         if (currentLayer === riverLayer) {
@@ -145,7 +144,7 @@ function toggleCheckbox(checkbox, riverName) {
         if (forecastElement) {
             forecastElement.innerHTML = ''; // Clear forecast details
         }
-        //console.log(`${riverName} checkbox is unchecked`);
+    
     }
 }
 
@@ -213,7 +212,7 @@ async function showForecast(riverName) {
 
     // Extract the streamflow data
    
-// const streamflowData = json_data[seriesTypeshort].series.data; // not always in the series bucket
+  // const streamflowData = json_data[seriesTypeshort].series.data; // not always in the series bucket
 
   // //This is hardcoded. e.g. If the medium range ever used member 5 it wouldn't work. Later: could make it loop through the different categories and pull data from the ones that have data. 
 
@@ -267,34 +266,60 @@ async function showForecast(riverName) {
       chart.destroy(); // Destroy the existing chart if present
     }
 
+    //Get the flood levels for the selected river
+    const floodLevels = floodreturnperiods[riverName].return_periods;
+    console.log("floodLevels", floodLevels);
+
+    
     // Create a new chart
     chart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: timestamps,
         datasets: [{
-          label: `${seriesTypeDisplay} Streamflow Forecast`,
+          label: `${seriesTypeDisplay} Streamflow Forecast`,     
           data: flowValues,
           borderColor: 'blue',
-          borderWidth: 1,
-          fill: false
+          borderWidth: 3,
+          fill: true,
+          pointBorderColor: "#005f99",
+          pointRadius: 5,
+          pointHoverRadius: 8,
+          pointHoverBackgroundColor: 'red'
         }]
       },
       options: {
         responsive: true,
+        plugins: {
+          legend: {
+              labels: { //main label
+                  color: "#333", 
+                  font: {
+                      size: 30,
+                      weight: "bold",
+                  },
+              },
+          },
+      },
         scales: {
           x: {
+            ticks:{color:'black',font:{size: 15}},
             display: true,
             title: {
               display: true,
-              text: 'Time'
+              text: 'Time',
+              color: 'black',
+              font:{weight: 'bold' , size: 20}
             }
           },
           y: {
+            ticks:{color:'black',font:{size: 15}},
             display: true,
             title: {
               display: true,
-              text: 'Streamflow (cfs)'
+              text: 'Streamflow (cfs)',
+              color: 'black',
+              font:{weight: 'bold' , size: 20}
             }
           }
         }

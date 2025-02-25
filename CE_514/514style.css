@@ -1,6 +1,8 @@
 /* Set the background color of the entire page to gray */
 body {
-    background-color: #808080; /* gray */
+    background-color: #808080; 
+    display:flex;
+    display:block;
     font-family: Arial, sans-serif; /* Optional: sets a nice font */
     margin: 0; /* Remove default margins */
     padding: 0; /* Remove default padding */
@@ -15,7 +17,7 @@ h1 {
 }
 
 h2 {
-    color:blue; 
+    color:black; 
 }
 
 p {
@@ -24,7 +26,17 @@ p {
 }
 
 .Assignments{
-    
     margin: 0 auto;
     width: 80%;
+}
+
+
+footer{
+    margin-top: 20px;
+    padding: 20px 0;
+    background-color: darkgray;
+    width:100%;
+    position: absolute;
+    bottom:0;
+
 }

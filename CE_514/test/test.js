@@ -65,22 +65,62 @@ const floodreturnperiods = {
 
   'River1': {
     feature_id: 17844046,
+    floodvalues:{
+      '2-year flood': 50.82,
+      '5-year flood': 82.98,
+      '10-year flood': 104.28,
+      '25-year flood': 131.18,
+      '50-year flood': 151.14,
+      '100-year flood': 170.95
+    },  
     return_periods: [50.82, 82.98, 104.28, 131.18, 151.14, 170.95]  
   },
   'River2': {
     feature_id: 17846986,
+    floodvalues:{
+      '2-year flood': 57.83,
+      '5-year flood': 93.27,
+      '10-year flood': 116.74,
+      '25-year flood': 146.39,
+      '50-year flood': 168.38,
+      '100-year flood': 190.22
+    },  
     return_periods: [57.83, 93.27, 116.74, 146.39, 168.38, 190.22]
   },
   'River3': {
     feature_id: 17848906,
+    floodvalues:{
+      '2-year flood': 69.3,
+      '5-year flood': 113.35,
+      '10-year flood': 142.52,
+      '25-year flood': 179.38,
+      '50-year flood': 206.72,
+      '100-year flood': 233.86
+    },  
     return_periods: [69.3, 113.35, 142.52, 179.38, 206.72, 233.86]
   },
   'River4': {
     feature_id: 17864594,
+    floodvalues:{
+      '2-year flood': 347.51,
+      '5-year flood': 601.2,
+      '10-year flood': 769.17,
+      '25-year flood': 981.39,
+      '50-year flood': 1138.83,
+      '100-year flood': 1295.11
+    },  
     return_periods: [347.51, 601.2, 769.17, 981.39, 1138.83, 1295.11]
   },
   'River5': {
     feature_id: 17863292,
+    floodvalues:{
+      '2-year flood': 329.57,
+      '5-year flood': 575.15,
+      '10-year flood': 737.74,
+      '25-year flood': 943.18,
+      '50-year flood': 1095.58,
+      '100-year flood': 1246.86
+    } , 
     return_periods: [329.57, 575.15, 737.74, 943.18, 1095.58, 1246.86]
   }
 };
@@ -308,6 +348,44 @@ console.log("floodLevel", floodLevel);
                   },
               },
           },
+          annotation:{
+            annotations:{
+              line1:{
+                type:'line',
+                scaleID:'y',
+                value: floodLevel[4],
+                borderColor: 'red',
+                borderWidth: 2,
+                label:{
+                  content: '50-year Flood Level',
+                  enabled: true,
+                  position: 'end',
+                  backgroundColor: 'red',
+                  font: {
+                    size: 15,
+                    weight: 'bold'
+                  }
+                }
+              },
+              line2:{
+                type:'line',
+                scaleID:'y',
+                value: floodLevel[5],
+                borderColor: 'orange',
+                borderWidth: 2,
+                label:{
+                  content: '100-year Flood Level',
+                  enabled: true,
+                  position: 'end',
+                  backgroundColor: 'orange',
+                  font: {
+                    size: 15,
+                    weight: 'bold'
+                  }
+                }
+              }
+            }
+          }
       },
         scales: {
           x: {
@@ -331,27 +409,7 @@ console.log("floodLevel", floodLevel);
             }
           }
         },
-        annotation:{
-          annotations:{
-            line1:{
-              type:'line',
-              ymin: 350,
-              ymax: 350,
-              borderColor: 'red',
-              borderWidth: 2,
-              label:{
-                content: '2-year Flood Level',
-                enabled: true,
-                position: 'end',
-                backgroundColor: 'red',
-                font: {
-                  size: 15,
-                  weight: 'bold'
-                }
-              }
-            }
-          }
-        }
+        
       }
     });
 
